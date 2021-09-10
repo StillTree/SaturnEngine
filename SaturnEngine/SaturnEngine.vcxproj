@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="src\SaturnEngine.h" />
     <ClInclude Include="src\SaturnEngine\Core.h" />
+    <ClInclude Include="src\SaturnEngine\Startup.h" />
     <ClInclude Include="src\SaturnEngine\Test.h" />
   </ItemGroup>
   <ItemGroup>

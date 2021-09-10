@@ -1,6 +1,11 @@
 #include <SaturnEngine.h>
 
-int main()
+#include <cstdio>
+
+//The application side
+int SaturnStartUp()
 {
-    SaturnEngine::Test();
+    printf("Hello World!\n");
+
+    return 0;
 }
