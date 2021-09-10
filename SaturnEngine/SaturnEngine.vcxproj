@@ -14,10 +14,6 @@
     <ClInclude Include="src\SaturnEngine.h" />
     <ClInclude Include="src\SaturnEngine\Core.h" />
     <ClInclude Include="src\SaturnEngine\Startup.h" />
-    <ClInclude Include="src\SaturnEngine\Test.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\SaturnEngine\Test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -21,16 +21,8 @@
     <ClInclude Include="src\SaturnEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SaturnEngine\Test.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SaturnEngine\Startup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\SaturnEngine\Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
