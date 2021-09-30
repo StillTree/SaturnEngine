@@ -1,0 +1,3 @@
+[submodule "SaturnEngine/libs/spdlog"]
+	path = SaturnEngine/libs/spdlog
+	url = https://github.com/gabime/spdlog

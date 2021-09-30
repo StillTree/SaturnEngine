@@ -1,11 +1,9 @@
 ﻿#pragma once
 
-extern int SaturnStartUp();
+#include "Core.h"
 
-//The engine side
-int main(int argc, char** argv)
+namespace SaturnEngine
 {
-    //Startup the engine
-
-    return SaturnStartUp();
+	void SATURN_API BigStartUp();
+	void SATURN_API BigShutDown();
 }

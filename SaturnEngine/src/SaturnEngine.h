@@ -1,3 +1,5 @@
 #pragma once
 
-#include "SaturnEngine/Startup.h"
+#include "SaturnEngine/StartUp.h"
+
+#include "Management/LogManager.h"

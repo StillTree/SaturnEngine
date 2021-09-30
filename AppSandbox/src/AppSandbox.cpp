@@ -1,11 +1,10 @@
-#include <SaturnEngine.h>
+#include "SaturnEngine.h"
 
-#include <cstdio>
-
-//The application side
-int SaturnStartUp()
+int main(char** argv, int argc)
 {
-    printf("Hello World!\n");
+	SaturnEngine::BigStartUp();
+	
+	ST_LOG_INFO("Initalizing application stuff!");
 
-    return 0;
+	SaturnEngine::BigShutDown();
 }

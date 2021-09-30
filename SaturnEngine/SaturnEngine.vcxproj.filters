@@ -15,13 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Management\LogManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SaturnEngine\StartUp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Management\LogManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\SaturnEngine\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SaturnEngine.h">
+    <ClInclude Include="src\SaturnEngine\StartUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SaturnEngine\Startup.h">
+    <ClInclude Include="src\SaturnEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
