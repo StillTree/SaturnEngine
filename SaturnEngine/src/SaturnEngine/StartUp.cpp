@@ -1,6 +1,11 @@
-﻿#include "StartUp.h"
-
+﻿#include "Core.h"
 #include "../Management/LogManager.h"
+
+namespace SaturnEngine
+{
+	void SATURN_API HugeStartUp();
+	void SATURN_API HugeShutDown();
+}
 
 namespace SaturnEngine
 {
@@ -9,7 +14,7 @@ namespace SaturnEngine
 		LogManager* LogManager;
 	} g_managers;
 
-	void BigStartUp()
+	void HugeStartUp()
 	{
 		g_managers.LogManager = new LogManager;
 		LogManager::Get()->StartUp();
@@ -17,7 +22,7 @@ namespace SaturnEngine
 		ST_LOG_INFO("Saturn Engine started up successfully!");
 	}
 
-	void BigShutDown()
+	void HugeShutDown()
 	{
 		LogManager::Get()->ShutDown();
 
