@@ -7,6 +7,7 @@
 #include "spdlog/sinks/ansicolor_sink.h"
 #include "spdlog/spdlog.h"
 #include "../SaturnEngine/Core.h"
+#include "../SaturnEngine/Errors.h"
 
 namespace SaturnEngine
 {
@@ -16,8 +17,8 @@ namespace SaturnEngine
 		LogManager();
 		~LogManager() = default;
 
-		void StartUp();
-		void ShutDown();
+		ST_ERROR StartUp();
+		ST_ERROR ShutDown();
 		std::shared_ptr<spdlog::logger>& Logger();
 		static LogManager* Get();
 	
@@ -38,7 +39,7 @@ namespace SaturnEngine
 #ifdef _DEBUG
 #define ST_LOG_DEBUG(...) SaturnEngine::LogManager::Get()->Logger()->info(__VA_ARGS__)
 #else
-#define ST_LOG_DEBUG(...)
+#define SAT_LOG_DEBUG(...)
 #endif
 #define ST_LOG_WARN(...) SaturnEngine::LogManager::Get()->Logger()->warn(__VA_ARGS__)
 #define ST_LOG_ERROR(...) SaturnEngine::LogManager::Get()->Logger()->error(__VA_ARGS__)

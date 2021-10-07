@@ -15,7 +15,7 @@ void SaturnEngine::AppShutDown()
 	
 }
 
-int main(char** argv, int argc)
+int main(int argc, char** argv)
 {
 	SaturnEngine::InitSaturnEngine();
 }

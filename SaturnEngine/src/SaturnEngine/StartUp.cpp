@@ -1,9 +1,11 @@
-﻿#include "Core.h"
+﻿#include <cstdio>
+
+#include "Core.h"
 #include "../Management/LogManager.h"
 
 namespace SaturnEngine
 {
-	void SATURN_API HugeStartUp();
+	ST_ERROR SATURN_API HugeStartUp();
 	void SATURN_API HugeShutDown();
 }
 
@@ -14,17 +16,29 @@ namespace SaturnEngine
 		LogManager* LogManager;
 	} g_managers;
 
-	void HugeStartUp()
+	ST_ERROR HugeStartUp()
 	{
 		g_managers.LogManager = new LogManager;
-		LogManager::Get()->StartUp();
+		if(LogManager::Get()->StartUp())
+		{
+			std::printf("Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
+
+			return ST_ERROR_COULD_NOT_INITIALIZE;
+		}
 
 		ST_LOG_INFO("Saturn Engine started up successfully!");
+
+		return ST_ERROR_OK;
 	}
 
 	void HugeShutDown()
 	{
-		LogManager::Get()->ShutDown();
+		if(LogManager::Get()->ShutDown())
+		{
+			delete g_managers.LogManager;
+
+			return;
+		}
 
 		ST_LOG_INFO("Saturn Engine shut down successfully!");
 

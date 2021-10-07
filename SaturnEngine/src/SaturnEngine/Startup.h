@@ -1,10 +1,11 @@
 ﻿#pragma once
 
 #include "Core.h"
+#include "Errors.h"
 
 namespace SaturnEngine
 {
-	void SATURN_API HugeStartUp();
+	ST_ERROR SATURN_API HugeStartUp();
 	void SATURN_API HugeShutDown();
 	void InitSaturnEngine();
 
@@ -15,7 +16,11 @@ namespace SaturnEngine
 
 inline void SaturnEngine::InitSaturnEngine()
 {
-	HugeStartUp();
+	if(HugeStartUp())
+	{
+		return;
+	}
+
 	AppStartUp();
 
 	while(true)
