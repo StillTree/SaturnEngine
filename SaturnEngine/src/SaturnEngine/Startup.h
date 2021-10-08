@@ -5,7 +5,7 @@
 
 namespace SaturnEngine
 {
-	ST_ERROR SATURN_API HugeStartUp();
+	SaturnError SATURN_API HugeStartUp();
 	void SATURN_API HugeShutDown();
 	void InitSaturnEngine();
 
@@ -16,7 +16,7 @@ namespace SaturnEngine
 
 inline void SaturnEngine::InitSaturnEngine()
 {
-	if(HugeStartUp())
+	if(Failed(HugeStartUp()))
 	{
 		return;
 	}

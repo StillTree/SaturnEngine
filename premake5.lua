@@ -13,8 +13,8 @@ project "SaturnEngine"
 	kind "SharedLib"
 	language "C++"
 
-	targetdir "bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
-	objdir "obj/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
+	targetdir "bin/%{cfg.buildcfg}_%{cfg.system}_%{cfg.architecture}_%{prj.name}"
+	objdir "obj/%{cfg.buildcfg}_%{cfg.system}_%{cfg.architecture}_%{prj.name}"
 
 	files
 	{
@@ -34,7 +34,7 @@ project "SaturnEngine"
 
 		defines "_WINDLL"
 
-		postbuildcommands "{COPY} %{cfg.buildtarget.relpath} ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/AppSandbox"
+		postbuildcommands "{COPY} %{cfg.buildtarget.relpath} ../bin/%{cfg.buildcfg}_%{cfg.system}_%{cfg.architecture}_AppSandbox"
 
 	filter "configurations:Debug"
 		defines "_DEBUG"
@@ -49,8 +49,8 @@ project "AppSandbox"
 	kind "ConsoleApp"
 	language "C++"
 
-	targetdir "bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
-	objdir "obj/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
+	targetdir "bin/%{cfg.buildcfg}_%{cfg.system}_%{cfg.architecture}_%{prj.name}"
+	objdir "obj/%{cfg.buildcfg}_%{cfg.system}_%{cfg.architecture}_%{prj.name}"
 
 	files
 	{

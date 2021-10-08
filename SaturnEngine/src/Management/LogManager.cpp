@@ -10,25 +10,25 @@ namespace SaturnEngine
 		s_instance = this;
 	}
 
-	ST_ERROR LogManager::StartUp()
+	SaturnError LogManager::StartUp()
 	{
 		spdlog::set_pattern("%^[%T] %l: %v%$");
 		m_logger = spdlog::stdout_color_mt("SaturnLogger");
 		if(!m_logger)
 		{
-			return ST_ERROR_COULD_NOT_INITIALIZE;
+			return SaturnError::CouldNotInitialize;
 		}
 
 		ST_LOG_DEBUG("LogManager initialized successfully");
 
-		return ST_ERROR_OK;
+		return SaturnError::Ok;
 	}
 
-	ST_ERROR LogManager::ShutDown()
+	SaturnError LogManager::ShutDown()
 	{
 		ST_LOG_DEBUG("LogManager shut down successfully");
 
-		return ST_ERROR_OK;
+		return SaturnError::Ok;
 	}
 
 	std::shared_ptr<spdlog::logger>& LogManager::Logger()

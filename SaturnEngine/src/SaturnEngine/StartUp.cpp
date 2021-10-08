@@ -5,7 +5,7 @@
 
 namespace SaturnEngine
 {
-	ST_ERROR SATURN_API HugeStartUp();
+	SaturnError SATURN_API HugeStartUp();
 	void SATURN_API HugeShutDown();
 }
 
@@ -16,32 +16,31 @@ namespace SaturnEngine
 		LogManager* LogManager;
 	} g_managers;
 
-	ST_ERROR HugeStartUp()
+	SaturnError HugeStartUp()
 	{
 		g_managers.LogManager = new LogManager;
-		if(LogManager::Get()->StartUp())
+		if(Failed(LogManager::Get()->StartUp()))
 		{
 			std::printf("Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
 
-			return ST_ERROR_COULD_NOT_INITIALIZE;
+			return SaturnError::CouldNotInitialize;
 		}
 
 		ST_LOG_INFO("Saturn Engine started up successfully!");
 
-		return ST_ERROR_OK;
+		return SaturnError::Ok;
 	}
 
 	void HugeShutDown()
 	{
-		if(LogManager::Get()->ShutDown())
+		if(Failed(LogManager::Get()->ShutDown()))
 		{
 			delete g_managers.LogManager;
 
 			return;
 		}
+		delete g_managers.LogManager;
 
 		ST_LOG_INFO("Saturn Engine shut down successfully!");
-
-		delete g_managers.LogManager;
 	}
 }

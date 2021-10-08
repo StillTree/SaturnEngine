@@ -1,8 +1,18 @@
 ﻿#pragma once
 
-enum ST_ERROR
+#include <cstdint>
+
+namespace SaturnEngine
 {
-	ST_ERROR_OK = 0,
-	ST_ERROR_COULD_NOT_INITIALIZE = 1,
-	ST_ERROR_UNKNOWN = -1
-};
+	enum class SaturnError : int8_t
+	{
+		Ok,
+		CouldNotInitialize = 1,
+		Unknown = -1
+	};
+
+	constexpr int8_t Failed(SaturnError err)
+	{
+		return static_cast<int8_t>(err);
+	}
+}

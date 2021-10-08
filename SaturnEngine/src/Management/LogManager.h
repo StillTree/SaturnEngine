@@ -17,8 +17,8 @@ namespace SaturnEngine
 		LogManager();
 		~LogManager() = default;
 
-		ST_ERROR StartUp();
-		ST_ERROR ShutDown();
+		SaturnError StartUp();
+		SaturnError ShutDown();
 		std::shared_ptr<spdlog::logger>& Logger();
 		static LogManager* Get();
 	
