@@ -7,12 +7,12 @@ void SaturnEngine::AppStartUp()
 
 void SaturnEngine::AppUpdate()
 {
-	
+
 }
 
 void SaturnEngine::AppShutDown()
 {
-	
+
 }
 
 int main(int argc, char** argv)

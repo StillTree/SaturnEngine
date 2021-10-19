@@ -36,7 +36,7 @@ namespace SaturnEngine
 }
 
 #define ST_LOG_INFO(...) SaturnEngine::LogManager::Get()->Logger()->info(__VA_ARGS__)
-#ifdef _DEBUG
+#ifdef ST_DEBUG
 #define ST_LOG_DEBUG(...) SaturnEngine::LogManager::Get()->Logger()->info(__VA_ARGS__)
 #else
 #define SAT_LOG_DEBUG(...)

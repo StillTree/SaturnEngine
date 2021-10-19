@@ -1,4 +1,4 @@
-﻿#include <cstdio>
+#include <cstdio>
 
 #include "Core.h"
 #include "../Management/LogManager.h"
@@ -7,10 +7,7 @@ namespace SaturnEngine
 {
 	SaturnError SATURN_API HugeStartUp();
 	void SATURN_API HugeShutDown();
-}
 
-namespace SaturnEngine
-{
 	struct
 	{
 		LogManager* LogManager;
