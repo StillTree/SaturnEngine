@@ -1,7 +1,7 @@
 #include <cstdio>
 
-#include "Core.h"
-#include "../Management/LogManager.h"
+#include "SaturnEngine/Core.h"
+#include "Management/LogManager.h"
 
 namespace SaturnEngine
 {
