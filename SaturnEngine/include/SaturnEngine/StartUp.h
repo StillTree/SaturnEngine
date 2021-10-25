@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Management/FrameAllocator.h"
 #include "Core.h"
 #include "Errors.h"
 
@@ -25,6 +26,11 @@ inline void SaturnEngine::InitSaturnEngine()
 
 	while(true)
 	{
+		if(Failed(FrameAllocator::Get()->Clear()))
+		{
+			return;
+		}
+
 		AppUpdate();
 	}
 
