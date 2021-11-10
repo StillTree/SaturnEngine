@@ -1,13 +1,9 @@
 ﻿#pragma once
 
 #include <memory>
-#include <cassert>
 
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/sinks/ansicolor_sink.h"
 #include "spdlog/spdlog.h"
-#include "../SaturnEngine/Core.h"
-#include "../SaturnEngine/Errors.h"
+#include "Utils/Errors.h"
 
 namespace SaturnEngine
 {

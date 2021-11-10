@@ -1,13 +1,14 @@
 #pragma once
 
+#include "Management/LogManager.h"
 #include "Management/FrameAllocator.h"
 #include "Core.h"
-#include "Errors.h"
+#include "Utils/Errors.h"
 
 namespace SaturnEngine
 {
 	SaturnError SATURN_API HugeStartUp();
-	void SATURN_API HugeShutDown();
+	SaturnError SATURN_API HugeShutDown();
 	void InitSaturnEngine();
 
 	void AppStartUp();
@@ -28,6 +29,8 @@ inline void SaturnEngine::InitSaturnEngine()
 	{
 		if(Failed(FrameAllocator::Get()->Clear()))
 		{
+			ST_LOG_ERROR("Failed to clear FrameAllocator. Shutting down Saturn Engine...");
+
 			return;
 		}
 
@@ -35,5 +38,8 @@ inline void SaturnEngine::InitSaturnEngine()
 	}
 
 	AppShutDown();
-	HugeShutDown();
+	if(Failed(HugeShutDown()))
+	{
+		return;
+	}
 }

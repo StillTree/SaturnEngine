@@ -7,7 +7,7 @@
 namespace SaturnEngine
 {
 	SaturnError SATURN_API HugeStartUp();
-	void SATURN_API HugeShutDown();
+	SaturnError SATURN_API HugeShutDown();
 
 	struct
 	{
@@ -30,34 +30,38 @@ namespace SaturnEngine
 		g_managers.FrameAllocator = new FrameAllocator;
 		if(Failed(FrameAllocator::Get()->StartUp()))
 		{
-			ST_LOG_INFO("Failed to initialize Single-Frame memory allocator!\n Shutting down Saturn Engine...");
+			ST_LOG_ERROR("Failed to initialize Single-Frame memory allocator! Something went really wrong!\n Shutting down Saturn Engine...");
 
 			return SaturnError::CouldNotInitialize;
 		}
 
-		ST_LOG_INFO("Saturn Engine started up successfully!");
+		ST_LOG_INFO("Saturn Engine started up successfully");
 
 		return SaturnError::Ok;
 	}
 
-	void HugeShutDown()
+	SaturnError HugeShutDown()
 	{
+		//FrameAllocator
 		if(Failed(FrameAllocator::Get()->ShutDown()))
 		{
 			delete g_managers.FrameAllocator;
 
-			return;
+			return SaturnError::CouldNotShutDown;
 		}
 		delete g_managers.FrameAllocator;
 
+		//LogManager
 		if(Failed(LogManager::Get()->ShutDown()))
 		{
 			delete g_managers.LogManager;
 
-			return;
+			return SaturnError::CouldNotShutDown;
 		}
 		delete g_managers.LogManager;
 
-		ST_LOG_INFO("Saturn Engine shut down successfully!");
+		ST_LOG_INFO("Saturn Engine shut down successfully");
+
+		return SaturnError::Ok;
 	}
 }

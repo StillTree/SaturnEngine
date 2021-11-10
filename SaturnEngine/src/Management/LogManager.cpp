@@ -1,4 +1,7 @@
-﻿#include "Management/LogManager.h"
+﻿#include <cassert>
+
+#include "Management/LogManager.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace SaturnEngine
 {

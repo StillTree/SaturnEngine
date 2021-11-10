@@ -2,7 +2,7 @@
 
 void SaturnEngine::AppStartUp()
 {
-	ST_LOG_INFO("Initializing application stuff!");
+	ST_LOG_INFO("Initializing application stuff");
 }
 
 void SaturnEngine::AppUpdate()

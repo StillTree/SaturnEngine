@@ -1,7 +1,6 @@
 #pragma once
 
-#include "SaturnEngine/Core.h"
-#include "SaturnEngine/Errors.h"
+#include "Utils/Errors.h"
 
 namespace SaturnEngine
 {
@@ -13,7 +12,7 @@ namespace SaturnEngine
 
 		SaturnError StartUp();
 		SaturnError ShutDown();
-		void* Alloc(size_t size);
+		void* Alloc(I64 size);
 		SaturnError Clear();
 		static FrameAllocator* Get();
 
@@ -24,11 +23,13 @@ namespace SaturnEngine
 		FrameAllocator& operator=(FrameAllocator&& other) = default;
 
 	private:
-		int8_t* m_memoryPool;
-		int8_t* m_stackTop;
+		I8* m_memoryPool;
+		I8* m_stackTop;
+		I8* m_stackSize;
 
 		static FrameAllocator* s_instance;
 	};
 }
 
-#define FrameAlloc(x) FrameAllocator::Get()->Alloc(x)
+#define ST_FRAME_ALLOC(x) FrameAllocator::Get()->Alloc(x)
+#define ST_FRAME_ARRAY(x, size) FrameAllocator::Get()->Alloc((x) * (size))
