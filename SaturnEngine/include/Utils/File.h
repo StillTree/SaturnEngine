@@ -3,7 +3,6 @@
 #include <Windows.h>
 
 #include "Utils/Errors.h"
-#include "Management/LogManager.h"
 
 namespace SaturnEngine
 {
@@ -17,22 +16,34 @@ namespace SaturnEngine
 
 		inline const wchar_t* Name() const
 		{
-			return wcsrchr(Path, '/') + 1;
+			wchar_t* name = new wchar_t[_MAX_FNAME];
+			_wsplitpath_s(Path, nullptr, 0, nullptr, 0, name, _MAX_FNAME, nullptr, 0);
+
+			return name;
+		}
+
+		inline const wchar_t* Drive() const
+		{
+			wchar_t* drive = new wchar_t[_MAX_DRIVE];
+			_wsplitpath_s(Path, drive, _MAX_DRIVE, nullptr, 0, nullptr, 0, nullptr, 0);
+
+			return drive;
 		}
 
 		inline const wchar_t* Directory() const
 		{
-			size_t size = wcsrchr(Path, '/') - Path;
-			wchar_t* dir = new wchar_t[size / 2];
-			memcpy((void*) dir, Path, size * 2);
-			dir[size] = L'\0';
+			wchar_t* dir = new wchar_t[_MAX_DIR];
+			_wsplitpath_s(Path, nullptr, 0, dir, _MAX_DIR, nullptr, 0, nullptr, 0);
 
 			return dir;
 		}
 
 		inline const wchar_t* Extension() const
 		{
-			return wcsrchr(Path, '.') + 1;
+			wchar_t* ext = new wchar_t[_MAX_EXT];
+			_wsplitpath_s(Path, nullptr, 0, nullptr, 0, nullptr, 0, ext, _MAX_EXT);
+
+			return ext;
 		}
 
 		~File()
