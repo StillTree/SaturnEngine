@@ -1,67 +1,96 @@
 #include <cstdio>
 
 #include "SaturnEngine/Core.h"
+#include "Management/ErrorManager.h"
 #include "Management/LogManager.h"
 #include "Management/FrameAllocator.h"
 
 namespace SaturnEngine
 {
-	SaturnError SATURN_API HugeStartUp();
-	SaturnError SATURN_API HugeShutDown();
+	void SATURN_API HugeStartUp();
+	void SATURN_API HugeShutDown();
 
 	struct
 	{
+		ErrorManager* ErrorManager;
 		LogManager* LogManager;
 		FrameAllocator* FrameAllocator;
 	} g_managers;
 
-	SaturnError HugeStartUp()
+	void HugeStartUp()
 	{
+		//ErrorManager
+		g_managers.ErrorManager = new ErrorManager;
+		ErrorManager::Get()->StartUp();
+		if(Failed(ST_LAST_ERROR()))
+		{
+			std::wprintf(L"Could not initialize ErrorManager! Something went really wrong!\nShutting down Saturn Engine...\n");
+
+			return;
+		}
+
 		//LogManager
 		g_managers.LogManager = new LogManager;
-		if(Failed(LogManager::Get()->StartUp()))
+		LogManager::Get()->StartUp();
+		if(Failed(ST_LAST_ERROR()))
 		{
-			std::printf("Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
+			std::wprintf(L"Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
 
-			return SaturnError::CouldNotInitialize;
+			return;
 		}
 
 		//FrameAllocator
 		g_managers.FrameAllocator = new FrameAllocator;
-		if(Failed(FrameAllocator::Get()->StartUp()))
+		FrameAllocator::Get()->StartUp();
+		if(Failed(ST_LAST_ERROR()))
 		{
-			ST_LOG_ERROR("Failed to initialize Single-Frame memory allocator! Something went really wrong!\n Shutting down Saturn Engine...");
+			ST_ERROR(L"Failed to initialize Single-Frame memory allocator! Something went really wrong!\n Shutting down Saturn Engine...");
 
-			return SaturnError::CouldNotInitialize;
+			ST_THROW_ERROR(SaturnError::CouldNotInitialize);
+			return;
 		}
 
-		ST_LOG_INFO("Saturn Engine started up successfully");
+		ST_LOG(L"Saturn Engine started up successfully");
 
-		return SaturnError::Ok;
+		ST_CLEAR_ERROR();
 	}
 
-	SaturnError HugeShutDown()
+	void HugeShutDown()
 	{
 		//FrameAllocator
-		if(Failed(FrameAllocator::Get()->ShutDown()))
+		FrameAllocator::Get()->ShutDown();
+		if(Failed(ST_LAST_ERROR()))
 		{
 			delete g_managers.FrameAllocator;
 
-			return SaturnError::CouldNotShutDown;
+			ST_THROW_ERROR(SaturnError::CouldNotShutDown);
+			return;
 		}
 		delete g_managers.FrameAllocator;
 
 		//LogManager
-		if(Failed(LogManager::Get()->ShutDown()))
+		LogManager::Get()->ShutDown();
+		if(Failed(ST_LAST_ERROR()))
 		{
 			delete g_managers.LogManager;
 
-			return SaturnError::CouldNotShutDown;
+			ST_THROW_ERROR(SaturnError::CouldNotShutDown);
+			return;
 		}
 		delete g_managers.LogManager;
 
-		ST_LOG_INFO("Saturn Engine shut down successfully");
+		//ErrorManager
+		ErrorManager::Get()->ShutDown();
+		if(Failed(ST_LAST_ERROR()))
+		{
+			delete g_managers.ErrorManager;
 
-		return SaturnError::Ok;
+			ST_THROW_ERROR(SaturnError::CouldNotShutDown);
+			return;
+		}
+
+		ST_LOG(L"Saturn Engine shut down successfully");
+
+		ST_CLEAR_ERROR();
 	}
 }

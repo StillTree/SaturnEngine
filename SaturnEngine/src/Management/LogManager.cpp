@@ -1,6 +1,7 @@
 ﻿#include <cassert>
 
 #include "Management/LogManager.h"
+#include "Management/ErrorManager.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace SaturnEngine
@@ -9,29 +10,30 @@ namespace SaturnEngine
 
 	LogManager::LogManager()
 	{
-		assert(!s_instance && "You can't create a second instance of LogManager!");
+		assert(!s_instance && L"You can't create a second instance of LogManager!");
 		s_instance = this;
 	}
 
-	SaturnError LogManager::StartUp()
+	void LogManager::StartUp()
 	{
 		spdlog::set_pattern("%^[%T] %l: %v%$");
 		m_logger = spdlog::stdout_color_mt("SaturnLogger");
 		if(!m_logger)
 		{
-			return SaturnError::CouldNotInitialize;
+			ST_THROW_ERROR(SaturnError::CouldNotInitialize);
+			return;
 		}
 
-		ST_LOG_DEBUG("LogManager initialized successfully");
+		ST_DEBUG(L"LogManager initialized successfully");
 
-		return SaturnError::Ok;
+		ST_CLEAR_ERROR();
 	}
 
-	SaturnError LogManager::ShutDown()
+	void LogManager::ShutDown()
 	{
-		ST_LOG_DEBUG("LogManager shut down successfully");
+		ST_DEBUG(L"LogManager shut down successfully");
 
-		return SaturnError::Ok;
+		ST_CLEAR_ERROR();
 	}
 
 	std::shared_ptr<spdlog::logger>& LogManager::Logger()

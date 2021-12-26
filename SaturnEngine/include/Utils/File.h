@@ -52,10 +52,10 @@ namespace SaturnEngine
 		}
 	} File;
 
-	SaturnError SATURN_API OpenFile(File& fileData);
-	SaturnError SATURN_API TextToFile(const File& fileData, const wchar_t* buffer);
-	SaturnError SATURN_API BytesToFile(const File& fileData, const U8* buffer);
-	SaturnError SATURN_API TextFromFile(const File& fileData, wchar_t* buffer);
-	SaturnError SATURN_API BytesFromFile(const File& fileData, U8* buffer);
-	SaturnError SATURN_API CloseFile(const File& fileData);
+	void SATURN_API OpenFile(File& fileData);
+	void SATURN_API TextToFile(const File& fileData, const wchar_t* buffer);
+	void SATURN_API BytesToFile(const File& fileData, const U8* buffer);
+	void SATURN_API TextFromFile(const File& fileData, wchar_t* buffer);
+	void SATURN_API BytesFromFile(const File& fileData, U8* buffer);
+	void SATURN_API CloseFile(const File& fileData);
 }

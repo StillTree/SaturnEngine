@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include "Management/LogManager.h"
+#include "Management/ErrorManager.h"
 
 namespace SaturnEngine
 {
@@ -9,28 +10,28 @@ namespace SaturnEngine
 
 	FrameAllocator::FrameAllocator() : m_memoryPool(nullptr), m_stackTop(nullptr), m_stackSize(nullptr)
 	{
-		assert(!s_instance && "You can't create a second instance of FrameAllocator!");
+		assert(!s_instance && L"You can't create a second instance of FrameAllocator!");
 		s_instance = this;
 	}
 
-	SaturnError FrameAllocator::StartUp()
+	void FrameAllocator::StartUp()
 	{
 		m_memoryPool = new I8[1024];
 		m_stackTop = m_memoryPool;
 		m_stackSize = m_stackTop + 1024;
 
-		ST_LOG_DEBUG("FrameManager initialized successfully");
+		ST_DEBUG(L"FrameManager initialized successfully");
 
-		return SaturnError::Ok;
+		ST_CLEAR_ERROR();
 	}
 
-	SaturnError FrameAllocator::ShutDown()
+	void FrameAllocator::ShutDown()
 	{
 		delete[] m_memoryPool;
 
-		ST_LOG_DEBUG("FrameManager shut down successfully");
+		ST_DEBUG(L"FrameManager shut down successfully");
 
-		return SaturnError::Ok;
+		ST_CLEAR_ERROR();
 	}
 
 	FrameAllocator* FrameAllocator::Get()
@@ -42,6 +43,8 @@ namespace SaturnEngine
 	{
 		if(m_stackTop + size > m_stackSize)
 		{
+			ST_THROW_ERROR(SaturnError::MemoryOverflow);
+
 			return nullptr;
 		}
 
@@ -51,10 +54,10 @@ namespace SaturnEngine
 		return tmp;
 	}
 
-	SaturnError FrameAllocator::Clear()
+	void FrameAllocator::Clear()
 	{
 		m_stackTop = m_memoryPool;
 
-		return SaturnError::Ok;
+		ST_CLEAR_ERROR();
 	}
 }

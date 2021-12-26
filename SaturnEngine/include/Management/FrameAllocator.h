@@ -10,10 +10,10 @@ namespace SaturnEngine
 		FrameAllocator();
 		~FrameAllocator() = default;
 
-		SaturnError StartUp();
-		SaturnError ShutDown();
+		void StartUp();
+		void ShutDown();
 		void* Alloc(I64 size);
-		SaturnError Clear();
+		void Clear();
 		static FrameAllocator* Get();
 
 		FrameAllocator(const FrameAllocator& other) = default;

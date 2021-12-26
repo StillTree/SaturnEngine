@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#define SPDLOG_WCHAR_TO_UTF8_SUPPORT
+
 #include "spdlog/spdlog.h"
 #include "Utils/Errors.h"
 
@@ -13,8 +15,8 @@ namespace SaturnEngine
 		LogManager();
 		~LogManager() = default;
 
-		SaturnError StartUp();
-		SaturnError ShutDown();
+		void StartUp();
+		void ShutDown();
 		std::shared_ptr<spdlog::logger>& Logger();
 		static LogManager* Get();
 	
@@ -31,11 +33,11 @@ namespace SaturnEngine
 	};
 }
 
-#define ST_LOG_INFO(...) SaturnEngine::LogManager::Get()->Logger()->info(__VA_ARGS__)
-#ifdef ST_DEBUG
-#define ST_LOG_DEBUG(...) SaturnEngine::LogManager::Get()->Logger()->info(__VA_ARGS__)
+#define ST_LOG(...) SaturnEngine::LogManager::Get()->Logger()->info(__VA_ARGS__)
+#ifdef ST_BUILD_DEBUG
+#define ST_DEBUG(...) SaturnEngine::LogManager::Get()->Logger()->info(__VA_ARGS__)
 #else
-#define ST_LOG_DEBUG(...)
+#define ST_DEBUG(...)
 #endif
-#define ST_LOG_WARN(...) SaturnEngine::LogManager::Get()->Logger()->warn(__VA_ARGS__)
-#define ST_LOG_ERROR(...) SaturnEngine::LogManager::Get()->Logger()->error(__VA_ARGS__)
+#define ST_WARN(...) SaturnEngine::LogManager::Get()->Logger()->warn(__VA_ARGS__)
+#define ST_ERROR(...) SaturnEngine::LogManager::Get()->Logger()->error(__VA_ARGS__)

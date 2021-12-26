@@ -13,6 +13,7 @@ namespace SaturnEngine
 		CouldNotWriteToFile = 4,
 		CouldNotReadFromFile = 5,
 		CouldNotShutDown = 6,
+		MemoryOverflow = 7,
 		Unknown = 255
 	};
 
