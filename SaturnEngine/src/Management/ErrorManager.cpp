@@ -35,7 +35,9 @@ namespace SaturnEngine
 
 	void ErrorManager::SetError(SaturnError error)
 	{
+#ifdef ST_BUILD_DEBUG
 		ST_ERROR("An error occurred with code {0}!", error);
+#endif
 
 		m_lastError = error;
 	}

@@ -5,7 +5,7 @@
 #define SPDLOG_WCHAR_TO_UTF8_SUPPORT
 
 #include "spdlog/spdlog.h"
-#include "Utils/Errors.h"
+#include "SaturnEngine/Core.h"
 
 namespace SaturnEngine
 {

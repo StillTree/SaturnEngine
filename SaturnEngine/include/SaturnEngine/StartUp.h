@@ -4,7 +4,6 @@
 #include "Management/LogManager.h"
 #include "Management/FrameAllocator.h"
 #include "Core.h"
-#include "Utils/Errors.h"
 
 namespace SaturnEngine
 {
@@ -20,8 +19,9 @@ namespace SaturnEngine
 inline void SaturnEngine::InitSaturnEngine()
 {
 	HugeStartUp();
-	if(Failed(ST_LAST_ERROR()))
+	if(ST_FAILED_ERROR())
 	{
+		HugeShutDown();
 		return;
 	}
 
@@ -30,10 +30,12 @@ inline void SaturnEngine::InitSaturnEngine()
 	while(true)
 	{
 		FrameAllocator::Get()->Clear();
-		if(Failed(ST_LAST_ERROR()))
+		if(ST_FAILED_ERROR())
 		{
 			ST_ERROR(L"Failed to clear FrameAllocator. Shutting down Saturn Engine...");
 
+			AppStartUp();
+			HugeShutDown();
 			return;
 		}
 
@@ -42,7 +44,7 @@ inline void SaturnEngine::InitSaturnEngine()
 
 	AppShutDown();
 	HugeShutDown();
-	if(Failed(ST_LAST_ERROR()))
+	if(ST_FAILED_ERROR())
 	{
 		return;
 	}

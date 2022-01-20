@@ -2,60 +2,34 @@
 
 #include <Windows.h>
 
-#include "Utils/Errors.h"
+#include "Management/ErrorManager.h"
+#include "Utils/String.h"
 
 namespace SaturnEngine
 {
-	//Byte Order Mask for UTF-16 LE encoding
-	constexpr wchar_t c_bom = 0xFEFF;
-
-	typedef struct File
+	class SATURN_API File
 	{
-		HANDLE FileHandle;
-		const wchar_t* Path;
+	public:
+		File() = delete;
+		explicit File(const String& path);
+		~File();
 
-		inline const wchar_t* Name() const
-		{
-			wchar_t* name = new wchar_t[_MAX_FNAME];
-			_wsplitpath_s(Path, nullptr, 0, nullptr, 0, name, _MAX_FNAME, nullptr, 0);
+		void WriteText( const String& buffer);
+		void WriteBytes(const U8* buffer);
+		String ReadText();
+		U8* ReadBytes();
 
-			return name;
-		}
+		String Name() const;
+		String Drive() const;
+		String Directory() const;
+		String Extension() const;
 
-		inline const wchar_t* Drive() const
-		{
-			wchar_t* drive = new wchar_t[_MAX_DRIVE];
-			_wsplitpath_s(Path, drive, _MAX_DRIVE, nullptr, 0, nullptr, 0, nullptr, 0);
+	public:
+		//Byte Order Mask for UTF-16 LE encoding
+		static constexpr wchar_t s_byteOrderMask = 0xFEFF;
 
-			return drive;
-		}
-
-		inline const wchar_t* Directory() const
-		{
-			wchar_t* dir = new wchar_t[_MAX_DIR];
-			_wsplitpath_s(Path, nullptr, 0, dir, _MAX_DIR, nullptr, 0, nullptr, 0);
-
-			return dir;
-		}
-
-		inline const wchar_t* Extension() const
-		{
-			wchar_t* ext = new wchar_t[_MAX_EXT];
-			_wsplitpath_s(Path, nullptr, 0, nullptr, 0, nullptr, 0, ext, _MAX_EXT);
-
-			return ext;
-		}
-
-		~File()
-		{
-			CloseHandle(FileHandle);
-		}
-	} File;
-
-	void SATURN_API OpenFile(File& fileData);
-	void SATURN_API TextToFile(const File& fileData, const wchar_t* buffer);
-	void SATURN_API BytesToFile(const File& fileData, const U8* buffer);
-	void SATURN_API TextFromFile(const File& fileData, wchar_t* buffer);
-	void SATURN_API BytesFromFile(const File& fileData, U8* buffer);
-	void SATURN_API CloseFile(const File& fileData);
+	private:
+		HANDLE m_fileHandle;
+		String m_path;
+	};
 }

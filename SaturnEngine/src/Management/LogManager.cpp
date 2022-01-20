@@ -20,7 +20,7 @@ namespace SaturnEngine
 		m_logger = spdlog::stdout_color_mt("SaturnLogger");
 		if(!m_logger)
 		{
-			ST_THROW_ERROR(SaturnError::CouldNotInitialize);
+			ST_THROW_ERROR(SaturnError::CouldNotStartUp);
 			return;
 		}
 

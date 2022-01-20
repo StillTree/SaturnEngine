@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utils/Errors.h"
+#include "SaturnEngine/Core.h"
 
 namespace SaturnEngine
 {

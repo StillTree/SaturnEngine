@@ -51,13 +51,12 @@ namespace SaturnEngine
 		I8* tmp = m_stackTop;
 		m_stackTop += size;
 
+		ST_CLEAR_ERROR();
 		return tmp;
 	}
 
 	void FrameAllocator::Clear()
 	{
 		m_stackTop = m_memoryPool;
-
-		ST_CLEAR_ERROR();
 	}
 }

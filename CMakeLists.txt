@@ -15,17 +15,18 @@ set(SaturnEngine_SOURCE
 		SaturnEngine/src/Management/LogManager.cpp
 		SaturnEngine/src/Management/FrameAllocator.cpp
 		SaturnEngine/src/Utils/File.cpp
-		SaturnEngine/src/Management/ErrorManager.cpp)
+		SaturnEngine/src/Management/ErrorManager.cpp
+		SaturnEngine/src/Utils/String.cpp)
 
 set(SaturnEngine_INCLUDE
 		SaturnEngine/include/SaturnEngine.h
 		SaturnEngine/include/SaturnEngine/Core.h
 		SaturnEngine/include/SaturnEngine/StartUp.h
-		SaturnEngine/include/Utils/Errors.h
 		SaturnEngine/include/Management/LogManager.h
 		SaturnEngine/include/Management/FrameAllocator.h
 		SaturnEngine/include/Utils/File.h
-		SaturnEngine/include/Management/ErrorManager.h)
+		SaturnEngine/include/Management/ErrorManager.h
+		SaturnEngine/include/Utils/String.h)
 
 set(SaturnEngine_INCLUDE_DIRECTORIES
 		SaturnEngine/include
