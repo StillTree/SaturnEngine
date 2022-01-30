@@ -1,18 +1,21 @@
 #include "SaturnEngine.h"
 
-void SaturnEngine::AppStartUp()
+namespace SaturnEngine
 {
-	ST_LOG(L"Initializing application stuff");
-}
+	void AppStartUp()
+	{
+		ST_LOG(L"Initializing application stuff");
+	}
 
-void SaturnEngine::AppUpdate()
-{
+	void AppUpdate()
+	{
 
-}
+	}
 
-void SaturnEngine::AppShutDown()
-{
+	void AppShutDown()
+	{
 
+	}
 }
 
 int main(int argc, char** argv)

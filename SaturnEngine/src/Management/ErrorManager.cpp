@@ -7,7 +7,7 @@ namespace SaturnEngine
 {
 	ErrorManager* ErrorManager::s_instance = nullptr;
 
-	ErrorManager::ErrorManager()
+	ErrorManager::ErrorManager() : m_lastError(SaturnError::Ok)
 	{
 		assert(!s_instance && L"You can't create a second instance of ErrorManager!");
 		s_instance = this;
@@ -21,6 +21,8 @@ namespace SaturnEngine
 	void ErrorManager::ShutDown()
 	{
 		m_lastError = SaturnError::Ok;
+
+		ST_DEBUG(L"Error manager shut down successfully");
 	}
 
 	ErrorManager* ErrorManager::Get()
@@ -33,10 +35,10 @@ namespace SaturnEngine
 		return m_lastError;
 	}
 
-	void ErrorManager::SetError(SaturnError error)
+	void ErrorManager::SetError(SaturnError error, const char* fileName, int lineNumber)
 	{
 #ifdef ST_BUILD_DEBUG
-		ST_ERROR("An error occurred with code {0}!", error);
+		ST_ERROR("Error {0} was thrown in {1}: {2}", error, fileName, lineNumber);
 #endif
 
 		m_lastError = error;

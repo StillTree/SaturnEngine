@@ -8,7 +8,7 @@ namespace SaturnEngine
 {
 	FrameAllocator* FrameAllocator::s_instance = nullptr;
 
-	FrameAllocator::FrameAllocator() : m_memoryPool(nullptr), m_stackTop(nullptr), m_stackSize(nullptr)
+	FrameAllocator::FrameAllocator() : m_memoryPool(nullptr), m_stackTop(nullptr), m_stackLimit(nullptr)
 	{
 		assert(!s_instance && L"You can't create a second instance of FrameAllocator!");
 		s_instance = this;
@@ -18,20 +18,16 @@ namespace SaturnEngine
 	{
 		m_memoryPool = new I8[1024];
 		m_stackTop = m_memoryPool;
-		m_stackSize = m_stackTop + 1024;
+		m_stackLimit = m_stackTop + 1024;
 
-		ST_DEBUG(L"FrameManager initialized successfully");
-
-		ST_CLEAR_ERROR();
+		ST_DEBUG(L"FrameAllocator initialized successfully");
 	}
 
 	void FrameAllocator::ShutDown()
 	{
 		delete[] m_memoryPool;
 
-		ST_DEBUG(L"FrameManager shut down successfully");
-
-		ST_CLEAR_ERROR();
+		ST_DEBUG(L"FrameAllocator shut down successfully");
 	}
 
 	FrameAllocator* FrameAllocator::Get()
@@ -41,7 +37,7 @@ namespace SaturnEngine
 
 	void* FrameAllocator::Alloc(I64 size)
 	{
-		if(m_stackTop + size > m_stackSize)
+		if(m_stackTop + size > m_stackLimit)
 		{
 			ST_THROW_ERROR(SaturnError::MemoryOverflow);
 

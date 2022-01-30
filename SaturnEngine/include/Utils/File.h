@@ -14,10 +14,12 @@ namespace SaturnEngine
 		explicit File(const String& path);
 		~File();
 
-		void WriteText( const String& buffer);
+		void WriteText(const String& buffer);
 		void WriteBytes(const U8* buffer);
 		String ReadText();
 		U8* ReadBytes();
+
+		void Delete();
 
 		String Name() const;
 		String Drive() const;

@@ -7,8 +7,8 @@
 
 namespace SaturnEngine
 {
-	void SATURN_API HugeStartUp();
-	void SATURN_API HugeShutDown();
+	bool SATURN_API HugeStartUp();
+	bool SATURN_API HugeShutDown();
 
 	struct
 	{
@@ -17,7 +17,7 @@ namespace SaturnEngine
 		FrameAllocator* FrameAllocator;
 	} g_managers;
 
-	void HugeStartUp()
+	bool HugeStartUp()
 	{
 		//ErrorManager
 		g_managers.ErrorManager = new ErrorManager;
@@ -25,8 +25,9 @@ namespace SaturnEngine
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize ErrorManager! Something went really wrong!\nShutting down Saturn Engine...\n");
+			delete g_managers.ErrorManager;
 
-			return;
+			return false;
 		}
 
 		//LogManager
@@ -35,8 +36,10 @@ namespace SaturnEngine
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
+			delete g_managers.LogManager;
+			delete g_managers.ErrorManager;
 
-			return;
+			return false;
 		}
 
 		//FrameAllocator
@@ -44,25 +47,26 @@ namespace SaturnEngine
 		FrameAllocator::Get()->StartUp();
 		if(ST_FAILED_ERROR())
 		{
-			ST_THROW_ERROR(SaturnError::CouldNotStartUp);
 			ST_ERROR(L"Failed to initialize Single-Frame memory allocator! Something went really wrong!\n Shutting down Saturn Engine...");
+			delete g_managers.FrameAllocator;
+			delete g_managers.LogManager;
+			delete g_managers.ErrorManager;
 
-			return;
+			return false;
 		}
 
 		ST_LOG(L"Saturn Engine started up successfully");
 
 		ST_CLEAR_ERROR();
+		return true;
 	}
 
-	void HugeShutDown()
+	bool HugeShutDown()
 	{
 		//FrameAllocator
 		FrameAllocator::Get()->ShutDown();
 		if(ST_FAILED_ERROR())
 		{
-			delete g_managers.FrameAllocator;
-
 			ST_THROW_ERROR(SaturnError::CouldNotShutDown);
 		}
 		delete g_managers.FrameAllocator;
@@ -71,9 +75,7 @@ namespace SaturnEngine
 		LogManager::Get()->ShutDown();
 		if(ST_FAILED_ERROR())
 		{
-			delete g_managers.LogManager;
-
-			ST_THROW_ERROR(SaturnError::CouldNotShutDown);
+			std::wprintf(L"An error was occurred while shutting down!");
 		}
 		delete g_managers.LogManager;
 
@@ -81,13 +83,12 @@ namespace SaturnEngine
 		ErrorManager::Get()->ShutDown();
 		if(ST_FAILED_ERROR())
 		{
-			delete g_managers.ErrorManager;
-
-			ST_THROW_ERROR(SaturnError::CouldNotShutDown);
+			std::wprintf(L"An error was occurred while shutting down!");
 		}
+		delete g_managers.ErrorManager;
 
-		ST_LOG(L"Saturn Engine shut down successfully");
+		std::wprintf(L"Saturn Engine shut down successfully\n");
 
-		ST_CLEAR_ERROR();
+		return true;
 	}
 }

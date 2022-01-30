@@ -27,7 +27,7 @@ namespace SaturnEngine
 		void StartUp();
 		void ShutDown();
 		SaturnError GetError();
-		void SetError(SaturnError error);
+		void SetError(SaturnError error, const char* fileName, int lineNumber);
 		void ClearError();
 		static ErrorManager* Get();
 
@@ -44,7 +44,7 @@ namespace SaturnEngine
 	};
 }
 
-#define ST_THROW_ERROR(err) ErrorManager::Get()->SetError(err)
+#define ST_THROW_ERROR(err) ErrorManager::Get()->SetError(err, __FILE__, __LINE__)
 #define ST_LAST_ERROR() ErrorManager::Get()->GetError()
 //Do not overuse! Should only be called in function that throw errors and only there.
 #define ST_CLEAR_ERROR() ErrorManager::Get()->ClearError()

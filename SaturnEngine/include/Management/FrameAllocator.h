@@ -25,7 +25,7 @@ namespace SaturnEngine
 	private:
 		I8* m_memoryPool;
 		I8* m_stackTop;
-		I8* m_stackSize;
+		I8* m_stackLimit;
 
 		static FrameAllocator* s_instance;
 	};

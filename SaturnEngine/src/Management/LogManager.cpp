@@ -32,8 +32,6 @@ namespace SaturnEngine
 	void LogManager::ShutDown()
 	{
 		ST_DEBUG(L"LogManager shut down successfully");
-
-		ST_CLEAR_ERROR();
 	}
 
 	std::shared_ptr<spdlog::logger>& LogManager::Logger()

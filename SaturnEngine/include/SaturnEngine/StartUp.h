@@ -7,45 +7,43 @@
 
 namespace SaturnEngine
 {
-	void SATURN_API HugeStartUp();
-	void SATURN_API HugeShutDown();
+	bool SATURN_API HugeStartUp();
+	bool SATURN_API HugeShutDown();
 	void InitSaturnEngine();
 
 	void AppStartUp();
 	void AppUpdate();
 	void AppShutDown();
-}
 
-inline void SaturnEngine::InitSaturnEngine()
-{
-	HugeStartUp();
-	if(ST_FAILED_ERROR())
+	inline void InitSaturnEngine()
 	{
-		HugeShutDown();
-		return;
-	}
-
-	AppStartUp();
-
-	while(true)
-	{
-		FrameAllocator::Get()->Clear();
-		if(ST_FAILED_ERROR())
+		if(!HugeStartUp())
 		{
-			ST_ERROR(L"Failed to clear FrameAllocator. Shutting down Saturn Engine...");
+			std::wprintf(L"Could not start up Saturn Engine, shutting down...\n");
 
-			AppStartUp();
-			HugeShutDown();
 			return;
 		}
+		AppStartUp();
+		ST_CLEAR_ERROR();
 
-		AppUpdate();
-	}
+		while(true)
+		{
+			FrameAllocator::Get()->Clear();
+			if(ST_FAILED_ERROR())
+			{
+				ST_ERROR(L"Failed to clear FrameAllocator. Shutting down Saturn Engine...");
 
-	AppShutDown();
-	HugeShutDown();
-	if(ST_FAILED_ERROR())
-	{
-		return;
+				AppShutDown();
+				HugeShutDown();
+				return;
+			}
+
+			AppUpdate();
+			ST_CLEAR_ERROR();
+		}
+
+		AppShutDown();
+		ST_CLEAR_ERROR();
+		HugeShutDown();
 	}
 }

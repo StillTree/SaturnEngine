@@ -6,7 +6,7 @@ namespace SaturnEngine
 	File::File(const String& path)
 	{
 		m_path = path.Pointer();
-		m_fileHandle = CreateFileW(m_path.Pointer(), GENERIC_READ | GENERIC_WRITE, 0, nullptr,
+		m_fileHandle = CreateFileW(m_path.Pointer(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_DELETE, nullptr,
 				OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 		if(m_fileHandle == INVALID_HANDLE_VALUE)
@@ -39,7 +39,7 @@ namespace SaturnEngine
 
 	void File::WriteText(const String& buffer)
 	{
-		SetFilePointer(m_fileHandle, 2, nullptr, FILE_BEGIN);
+		SetFilePointer(m_fileHandle, 2, nullptr, FILE_END);
 
 		if(!WriteFile(m_fileHandle, buffer.Pointer(), buffer.Length() * sizeof(wchar_t), nullptr, nullptr))
 		{
@@ -52,7 +52,7 @@ namespace SaturnEngine
 
 	void File::WriteBytes(const U8* buffer)
 	{
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
+		SetFilePointer(m_fileHandle, 0, nullptr, FILE_END);
 
 		if(!WriteFile(m_fileHandle, buffer, sizeof buffer, nullptr, nullptr))
 		{
@@ -134,5 +134,16 @@ namespace SaturnEngine
 		delete[] ext;
 
 		return str;
+	}
+
+	void File::Delete()
+	{
+		if(!DeleteFileW(m_path.Pointer()))
+		{
+			ST_THROW_ERROR(SaturnError::CouldNotModifyFile);
+			return;
+		}
+
+		ST_CLEAR_ERROR();
 	}
 }
