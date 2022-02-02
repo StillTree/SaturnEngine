@@ -7,7 +7,17 @@
 
 namespace SaturnEngine
 {
+	/**
+	 * Starts up the core engine including the managers.
+	 *
+	 * @return if starting up went successfully
+	 */
 	bool SATURN_API HugeStartUp();
+	/**
+	 * Shuts down the core engine including the managers.
+	 *
+	 * @return if shutting down went successfully
+	 */
 	bool SATURN_API HugeShutDown();
 
 	struct

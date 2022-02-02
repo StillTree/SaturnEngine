@@ -7,12 +7,26 @@
 
 namespace SaturnEngine
 {
+	/**
+	 * Starts up the core engine including the managers.
+	 *
+	 * @return if starting up went successfully
+	 */
 	bool SATURN_API HugeStartUp();
+	/**
+	 * Shuts down the core engine including the managers.
+	 *
+	 * @return if shutting down went successfully
+	 */
 	bool SATURN_API HugeShutDown();
+	// Initializes the while engine including the app itself. Should only be used once, in the `main()` function.
 	void InitSaturnEngine();
 
+	// Called after starting up the core engine.
 	void AppStartUp();
+	// Called every frame.
 	void AppUpdate();
+	// Called before shutting down the core engine.
 	void AppShutDown();
 
 	inline void InitSaturnEngine()

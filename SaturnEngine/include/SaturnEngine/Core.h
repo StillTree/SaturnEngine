@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+// Macros for easier __declspec use
 #ifdef ST_WINDOWS
 #ifdef ST_LIBRARY
 #define SATURN_API __declspec(dllexport)
@@ -11,6 +12,8 @@
 #else
 #error Saturn Engine currently supports only Windows!
 #endif
+
+// Should be preferred over built-in types just for consistency.
 
 typedef int8_t I8;
 typedef int16_t I16;
