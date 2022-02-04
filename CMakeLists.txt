@@ -26,7 +26,9 @@ set(SaturnEngine_INCLUDE
 		SaturnEngine/include/Management/FrameAllocator.h
 		SaturnEngine/include/Utils/File.h
 		SaturnEngine/include/Management/ErrorManager.h
-		SaturnEngine/include/Utils/String.h)
+		SaturnEngine/include/Utils/String.h
+		SaturnEngine/include/SaturnEngine/Events/Event.h
+		SaturnEngine/include/SaturnEngine/Events/EventSender.h)
 
 set(SaturnEngine_INCLUDE_DIRECTORIES
 		SaturnEngine/include

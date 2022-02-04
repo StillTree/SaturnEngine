@@ -39,7 +39,7 @@ namespace SaturnEngine
 
 	void File::WriteText(const String& buffer)
 	{
-		SetFilePointer(m_fileHandle, 2, nullptr, FILE_END);
+		SetFilePointer(m_fileHandle, 0, nullptr, FILE_END);
 
 		if(!WriteFile(m_fileHandle, buffer.Pointer(), buffer.Length() * sizeof(wchar_t), nullptr, nullptr))
 		{
@@ -82,6 +82,8 @@ namespace SaturnEngine
 
 	U8* File::ReadBytes()
 	{
+		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
+
 		U8* buffer = new U8[GetFileSize(m_fileHandle, nullptr)];
 
 		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
