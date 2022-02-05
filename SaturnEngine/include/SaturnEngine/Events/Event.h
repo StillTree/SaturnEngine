@@ -4,7 +4,7 @@ namespace SaturnEngine
 {
 	enum class EventType
 	{
-		JoeEvent
+		
 	};
 
 	struct Event
