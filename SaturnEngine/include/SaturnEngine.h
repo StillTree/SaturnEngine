@@ -8,3 +8,6 @@
 #include "Utils/String.h"
 #include "SaturnEngine/Events/Event.h"
 #include "SaturnEngine/Events/EventSender.h"
+#include "SaturnEngine/Window.h"
+#include "SaturnEngine/Events/WindowEvents.h"
+#include "SaturnEngine/GlobalDataStructs.h"

@@ -84,7 +84,7 @@ namespace SaturnEngine
 	{
 		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
 
-		U8* buffer = new U8[GetFileSize(m_fileHandle, nullptr)];
+		auto* buffer = new U8[GetFileSize(m_fileHandle, nullptr)];
 
 		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
 
@@ -100,7 +100,7 @@ namespace SaturnEngine
 
 	String File::Name() const
 	{
-		wchar_t* name = new wchar_t[_MAX_FNAME];
+		auto* name = new wchar_t[_MAX_FNAME];
 		_wsplitpath_s(m_path.Pointer(), nullptr, 0, nullptr, 0, name, _MAX_FNAME, nullptr, 0);
 		String str(name);
 		delete[] name;
@@ -110,7 +110,7 @@ namespace SaturnEngine
 
 	String File::Drive() const
 	{
-		wchar_t* drive = new wchar_t[_MAX_FNAME];
+		auto* drive = new wchar_t[_MAX_FNAME];
 		_wsplitpath_s(m_path.Pointer(), drive, _MAX_DRIVE, nullptr, 0, nullptr, 0, nullptr, 0);
 		String str(drive);
 		delete[] drive;
@@ -120,7 +120,7 @@ namespace SaturnEngine
 
 	String File::Directory() const
 	{
-		wchar_t* dir = new wchar_t[_MAX_FNAME];
+		auto* dir = new wchar_t[_MAX_FNAME];
 		_wsplitpath_s(m_path.Pointer(), nullptr, 0, dir, _MAX_DIR, nullptr, 0, nullptr, 0);
 		String str(dir);
 		delete[] dir;
@@ -130,7 +130,7 @@ namespace SaturnEngine
 
 	String File::Extension() const
 	{
-		wchar_t* ext = new wchar_t[_MAX_FNAME];
+		auto* ext = new wchar_t[_MAX_FNAME];
 		_wsplitpath_s(m_path.Pointer(), nullptr, 0, nullptr, 0, nullptr, 0, ext, _MAX_EXT);
 		String str(ext);
 		delete[] ext;

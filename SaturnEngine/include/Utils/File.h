@@ -15,6 +15,7 @@ namespace SaturnEngine
 	class SATURN_API File
 	{
 	public:
+		//You cannot initialize a file without a path to it.
 		File() = delete;
 		explicit File(const String& path);
 		~File();

@@ -40,7 +40,7 @@ namespace SaturnEngine
 		delete[] m_str;
 	}
 
-	String::String(String& other)
+	String::String(const String& other)
 	{
 		m_str = new wchar_t[wcslen(other.m_str) + 1];
 		wcscpy_s(m_str, wcslen(other.m_str) + 1, other.m_str);
@@ -70,7 +70,7 @@ namespace SaturnEngine
 
 	String& String::operator=(const String& other)
 	{
-		wchar_t* new_str = new wchar_t[wcslen(other.m_str) + 1];
+		auto* new_str = new wchar_t[wcslen(other.m_str) + 1];
 		wcscpy_s(new_str, wcslen(other.m_str) + 1, other.m_str);
 
 		delete[] m_str;
@@ -124,7 +124,7 @@ namespace SaturnEngine
 			return;
 		}
 
-		wchar_t* newStr = new wchar_t[newSize + 1];
+		auto* newStr = new wchar_t[newSize + 1];
 
 		for(size_t i = 0; i < wcslen(m_str); ++i)
 		{

@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Management/ErrorManager.h"
-#include "Management/LogManager.h"
-#include "Management/FrameAllocator.h"
 #include "Core.h"
+#include "SaturnEngine/GlobalDataStructs.h"
 
 namespace SaturnEngine
 {
+	Managers SATURN_API g_managers;
+	GlobalData SATURN_API g_globalData;
+
 	/**
 	 * Starts up the core engine including the managers.
 	 *
@@ -34,26 +35,34 @@ namespace SaturnEngine
 		if(!HugeStartUp())
 		{
 			std::wprintf(L"Could not start up Saturn Engine, shutting down...\n");
-
 			return;
 		}
 		AppStartUp();
 		ST_CLEAR_ERROR();
 
-		while(true)
+		MSG msg = {};
+		while(msg.message != WM_QUIT)
 		{
-			FrameAllocator::Get()->Clear();
-			if(ST_FAILED_ERROR())
+			if(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 			{
-				ST_ERROR(L"Failed to clear FrameAllocator. Shutting down Saturn Engine...");
-
-				AppShutDown();
-				HugeShutDown();
-				return;
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
 			}
+			else
+			{
+				FrameAllocator::Get()->Clear();
+				if(ST_FAILED_ERROR())
+				{
+					ST_ERROR(L"Failed to clear FrameAllocator. Shutting down Saturn Engine...");
 
-			AppUpdate();
-			ST_CLEAR_ERROR();
+					AppShutDown();
+					HugeShutDown();
+					return;
+				}
+
+				AppUpdate();
+				ST_CLEAR_ERROR();
+			}
 		}
 
 		AppShutDown();

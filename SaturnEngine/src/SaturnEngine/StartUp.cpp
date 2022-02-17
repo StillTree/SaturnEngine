@@ -1,12 +1,13 @@
-#include <cstdio>
-
 #include "SaturnEngine/Core.h"
-#include "Management/ErrorManager.h"
-#include "Management/LogManager.h"
-#include "Management/FrameAllocator.h"
+#include "SaturnEngine/GlobalDataStructs.h"
+
+#include <cstdio>
 
 namespace SaturnEngine
 {
+	Managers SATURN_API g_managers;
+	GlobalData SATURN_API g_globalData;
+
 	/**
 	 * Starts up the core engine including the managers.
 	 *
@@ -19,13 +20,6 @@ namespace SaturnEngine
 	 * @return if shutting down went successfully
 	 */
 	bool SATURN_API HugeShutDown();
-
-	struct
-	{
-		ErrorManager* ErrorManager;
-		LogManager* LogManager;
-		FrameAllocator* FrameAllocator;
-	} g_managers;
 
 	bool HugeStartUp()
 	{
@@ -65,6 +59,9 @@ namespace SaturnEngine
 			return false;
 		}
 
+		Window::RegisterWindowClass();
+		g_globalData.MainWindow = new Window(L"Application Window", 1366, 768);
+
 		ST_LOG(L"Saturn Engine started up successfully");
 
 		ST_CLEAR_ERROR();
@@ -85,7 +82,7 @@ namespace SaturnEngine
 		LogManager::Get()->ShutDown();
 		if(ST_FAILED_ERROR())
 		{
-			std::wprintf(L"An error was occurred while shutting down!");
+			std::wprintf(L"An error occurred while shutting down!");
 		}
 		delete g_managers.LogManager;
 
@@ -93,7 +90,7 @@ namespace SaturnEngine
 		ErrorManager::Get()->ShutDown();
 		if(ST_FAILED_ERROR())
 		{
-			std::wprintf(L"An error was occurred while shutting down!");
+			std::wprintf(L"An error occurred while shutting down!");
 		}
 		delete g_managers.ErrorManager;
 

@@ -22,7 +22,7 @@ namespace SaturnEngine
 	{
 		m_lastError = SaturnError::Ok;
 
-		ST_DEBUG(L"Error manager shut down successfully");
+		std::wprintf(L"Error manager shut down successfully\n");
 	}
 
 	ErrorManager* ErrorManager::Get()

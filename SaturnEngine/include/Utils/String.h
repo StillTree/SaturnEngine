@@ -14,12 +14,19 @@ namespace SaturnEngine
 	class SATURN_API String
 	{
 	public:
+		//Initializes an empty string, with null byte included
 		String();
+		/**
+		 * Initializes the string with the `const char*` provided.
+		 *
+		 * It is explicit to make it easier to use.
+		 */
 		String(const wchar_t* str);
+		//Initializes and empty string with the number of bytes specified.
 		explicit String(size_t size);
 		~String();
 
-		String(String& other);
+		String(const String& other);
 		String(String&& other) noexcept;
 
 		String& operator=(const wchar_t* str);
@@ -28,12 +35,12 @@ namespace SaturnEngine
 		bool operator==(const String& other);
 		bool operator!=(const String& other);
 
-		// Returns the length of the string currently being stored.
-		size_t Length() const;
-		// Returns a constant pointer to the string currently being stored.
-		const wchar_t* Pointer() const;
-		// Returns a non-constant pointer to the string currently being stored.
-		wchar_t* Pointer();
+		//Returns the length of the string currently being stored.
+		inline size_t Length() const;
+		//Returns a constant pointer to the string currently being stored.
+		inline const wchar_t* Pointer() const;
+		//Returns a non-constant pointer to the string currently being stored.
+		inline wchar_t* Pointer();
 		/**
 		 * Reallocates the currently stored string, with the new size provided.
 		 *
