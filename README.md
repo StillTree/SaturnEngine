@@ -4,6 +4,6 @@ Saturn Engine is a 3D C++17 game engine written purely in DirectX 12. I'm not cu
 
 This engine isn't even close to being finished, so I don't want to promise anything more in here. The rest of README coming soon...
 
-## Requrements
+## Requirements
 * Windows 10+ 64 bit
 * GPU that supports DirectX 12
