@@ -18,6 +18,6 @@ namespace SaturnEngine
 	//Structure containing all the data required for the application.
 	typedef struct GlobalData
 	{
-		Window* MainWindow = nullptr;
+		std::shared_ptr<Window> MainWindow = nullptr;
 	} GlobalData;
 }

@@ -70,3 +70,5 @@ namespace SaturnEngine
 		HugeShutDown();
 	}
 }
+
+#define MAIN_WINDOW SaturnEngine::g_globalData.MainWindow

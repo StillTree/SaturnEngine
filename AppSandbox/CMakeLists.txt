@@ -1,6 +1,5 @@
-set(AppSandbox_SOURCE src/AppSandbox.cpp)
-
-set(AppSandbox_INCLUDE)
+file(GLOB_RECURSE AppSandbox_SOURCE src/*.cpp)
+file(GLOB_RECURSE AppSandbox_INCLUDE include/*.h)
 
 add_executable(AppSandbox ${AppSandbox_SOURCE} ${AppSandbox_INCLUDE})
 

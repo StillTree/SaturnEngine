@@ -60,7 +60,7 @@ namespace SaturnEngine
 		}
 
 		Window::RegisterWindowClass();
-		g_globalData.MainWindow = new Window(L"Application Window", 1366, 768);
+		g_globalData.MainWindow = std::make_shared<Window>(L"Application Window", 1366, 768);
 
 		ST_LOG(L"Saturn Engine started up successfully");
 
