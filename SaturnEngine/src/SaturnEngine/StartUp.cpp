@@ -1,8 +1,6 @@
 #include "SaturnEngine/Core.h"
 #include "SaturnEngine/GlobalDataStructs.h"
 
-#include <cstdio>
-
 namespace SaturnEngine
 {
 	Managers SATURN_API g_managers;

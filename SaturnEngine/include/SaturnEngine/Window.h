@@ -4,8 +4,6 @@
 #include "SaturnEngine/Events/EventSender.h"
 #include "SaturnEngine/Events/WindowEvents.h"
 
-#include <Windows.h>
-
 namespace SaturnEngine
 {
 	//Window class, used to create and show a window. Doesn't include a window procedure.

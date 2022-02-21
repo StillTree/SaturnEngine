@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Windows.h>
-
 #include "Management/ErrorManager.h"
 #include "Utils/String.h"
 

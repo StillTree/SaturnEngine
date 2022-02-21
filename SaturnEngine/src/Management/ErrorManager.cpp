@@ -1,6 +1,5 @@
-#include <cassert>
-
 #include "Management/ErrorManager.h"
+
 #include "Management/LogManager.h"
 
 namespace SaturnEngine

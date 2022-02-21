@@ -28,6 +28,7 @@ else()
 	target_compile_definitions(SaturnEngine PUBLIC ST_BUILD_RELEASE)
 endif()
 
+target_precompile_headers(SaturnEngine PUBLIC include/SaturnEngine/SaturnPrecompiled.h)
 target_compile_definitions(SaturnEngine PRIVATE ST_LIBRARY)
 target_link_libraries(SaturnEngine PRIVATE spdlog::spdlog_header_only nlohmann_json::nlohmann_json)
 target_include_directories(SaturnEngine PUBLIC ${SaturnEngine_INCLUDE_DIRECTORIES})

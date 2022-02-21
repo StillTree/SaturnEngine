@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 // Macros for easier __declspec use
 
 #ifdef ST_WINDOWS

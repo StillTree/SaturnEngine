@@ -1,6 +1,5 @@
 #include "Management/FrameAllocator.h"
 
-#include <cassert>
 #include "Management/LogManager.h"
 #include "Management/ErrorManager.h"
 

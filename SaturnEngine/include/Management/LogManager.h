@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include <memory>
-
 #define SPDLOG_WCHAR_TO_UTF8_SUPPORT
 #define SPDLOG_LEVEL_NAMES { "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRIT", "OFF" }
 

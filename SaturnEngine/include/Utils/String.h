@@ -2,8 +2,6 @@
 
 #include "SaturnEngine/Core.h"
 
-#include <cstring>
-
 namespace SaturnEngine
 {
 	/**
