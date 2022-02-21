@@ -56,6 +56,7 @@ namespace SaturnEngine
 					ST_ERROR(L"Failed to clear FrameAllocator. Shutting down Saturn Engine...");
 
 					AppShutDown();
+					ST_CLEAR_ERROR();
 					HugeShutDown();
 					return;
 				}
