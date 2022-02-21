@@ -52,20 +52,20 @@ namespace SaturnEngine
 		 */
 		U8* ReadBytes();
 
-		// Deletes current file.
+		//Deletes current file.
 		void Delete();
 
-		// Returns the name of the file
+		//Returns the name of the file
 		String Name() const;
-		// Returns the drive letter of the file on which it is currently being stored on
+		//Returns the drive letter of the file on which it is currently being stored
 		String Drive() const;
-		// Returns the directory in which the file is currently being stored on
+		//Returns the directory in which the file is currently being stored
 		String Directory() const;
-		// Returns extension of the file
+		//Returns extension of the file
 		String Extension() const;
 
 	public:
-		// Byte Order Mask for UTF-16 LE encoding.
+		//Byte Order Mask for UTF-16 LE encoding.
 		static constexpr wchar_t s_byteOrderMask = 0xFEFF;
 
 	private:

@@ -39,7 +39,9 @@ namespace SaturnEngine
 
 	void File::WriteText(const String& buffer)
 	{
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_END);
+		//Before writing to a file truncate it to not cause corruption in the file itself
+		SetFilePointer(m_fileHandle, 2, nullptr, FILE_BEGIN);
+		SetEndOfFile(m_fileHandle);
 
 		if(!WriteFile(m_fileHandle, buffer.Pointer(), buffer.Length() * sizeof(wchar_t), nullptr, nullptr))
 		{
@@ -52,7 +54,9 @@ namespace SaturnEngine
 
 	void File::WriteBytes(const U8* buffer)
 	{
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_END);
+		//Before writing to a file truncate it to not cause corruption in the file itself
+		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
+		SetEndOfFile(m_fileHandle);
 
 		if(!WriteFile(m_fileHandle, buffer, sizeof buffer, nullptr, nullptr))
 		{
@@ -85,8 +89,6 @@ namespace SaturnEngine
 		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
 
 		auto* buffer = new U8[GetFileSize(m_fileHandle, nullptr)];
-
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
 
 		if(!ReadFile(m_fileHandle, buffer, sizeof buffer, nullptr, nullptr))
 		{
