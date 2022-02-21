@@ -28,9 +28,9 @@ namespace SaturnEngine
 		 *
 		 * @return reference to `spdlog::logger`
 		 */
-		inline std::shared_ptr<spdlog::logger>& Logger();
+		std::shared_ptr<spdlog::logger>& Logger();
 		//Singleton instance getter function. Present in every manager.
-		static inline LogManager* Get();
+		static LogManager* Get();
 	
 		LogManager(const LogManager& other) = default;
 		LogManager(LogManager&& other) = default;

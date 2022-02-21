@@ -44,7 +44,7 @@ namespace SaturnEngine
 		 *
 		 * @return last thrown error
 		 */
-		inline SaturnError GetError();
+		SaturnError GetError();
 		/**
 		 * Throws an error.
 		 *
@@ -54,15 +54,15 @@ namespace SaturnEngine
 		 * @param fileName name of the file error occurred in
 		 * @param lineNumber line number on which the error occurred
 		 */
-		inline void SetError(SaturnError error, const char* fileName, int lineNumber);
+		void SetError(SaturnError error, const char* fileName, int lineNumber);
 		/**
 		 * Clears the last throw error.
 		 *
 		 * In practice, just sets the latest thrown error to "Ok".
 		 */
-		inline void ClearError();
+		void ClearError();
 		//Singleton instance getter function. Present in every manager.
-		static inline ErrorManager* Get();
+		static ErrorManager* Get();
 
 		ErrorManager(const ErrorManager& other) = default;
 		ErrorManager(ErrorManager&& other) = default;

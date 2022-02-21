@@ -29,9 +29,9 @@ namespace SaturnEngine
 		/**
 		 * Clear the memory allocator
 		 */
-		inline void Clear();
+		void Clear();
 		//Singleton instance getter function. Present in every manager.
-		static inline FrameAllocator* Get();
+		static FrameAllocator* Get();
 
 		FrameAllocator(const FrameAllocator& other) = default;
 		FrameAllocator(FrameAllocator&& other) = default;
