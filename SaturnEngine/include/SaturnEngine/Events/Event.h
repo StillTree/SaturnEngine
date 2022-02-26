@@ -23,10 +23,10 @@ namespace SaturnEngine
 	 */
 	typedef struct Event
 	{
-		virtual CoreEventType GetType() const = 0;
+		virtual CoreEventType Type() const = 0;
 	} Event;
 }
 
 #define EVENT_METHODS(eventType) \
-CoreEventType GetType() const override { return eventType; } \
-static CoreEventType GetStaticType() { return eventType; }
+CoreEventType Type() const override { return eventType; } \
+static CoreEventType StaticType() { return eventType; }

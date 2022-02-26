@@ -68,12 +68,12 @@ namespace SaturnEngine
 		DestroyWindow(m_windowHandle);
 	}
 
-	String Window::GetTitle() const
+	String Window::Title() const
 	{
 		return m_title;
 	}
 
-	void Window::SetTitle(const String& title)
+	void Window::Title(const String& title)
 	{
 		if(!SetWindowTextW(m_windowHandle, title.Pointer()))
 		{
@@ -84,17 +84,17 @@ namespace SaturnEngine
 		m_title = title;
 	}
 
-	U16 Window::GetWidth() const
+	U16 Window::Width() const
 	{
 		return m_width;
 	}
 
-	U16 Window::GetHeight() const
+	U16 Window::Height() const
 	{
 		return m_height;
 	}
 
-	HWND Window::GetWindowHandle() const
+	HWND Window::WindowHandle() const
 	{
 		return m_windowHandle;
 	}

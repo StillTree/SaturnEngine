@@ -63,7 +63,7 @@ namespace SaturnEngine
 		template<typename T>
 		void Subscribe(void (*eventFunction)(const T&))
 		{
-			std::vector<EventFunctionBase*>& functions = m_subscribers[T::GetStaticType()];
+			std::vector<EventFunctionBase*>& functions = m_subscribers[T::StaticType()];
 
 			functions.push_back(new Function<T>(eventFunction));
 		}
@@ -77,7 +77,7 @@ namespace SaturnEngine
 		template<typename T>
 		void Invoke(T& e)
 		{
-			std::vector<EventFunctionBase*>& functions = m_subscribers[T::GetStaticType()];
+			std::vector<EventFunctionBase*>& functions = m_subscribers[T::StaticType()];
 
 			for(auto* handler : functions)
 			{

@@ -18,15 +18,15 @@ namespace SaturnEngine
 		~Window();
 
 		//Returns the title of the window.
-		inline String GetTitle() const;
+		inline String Title() const;
 		//Sets the title of the window.
-		void SetTitle(const String& title);
+		void Title(const String& title);
 		//Returns the width of the window.
-		inline U16 GetWidth() const;
+		inline U16 Width() const;
 		//Returns the height of the window.
-		inline U16 GetHeight() const;
+		inline U16 Height() const;
 		//Returns the window handle.
-		inline HWND GetWindowHandle() const;
+		inline HWND WindowHandle() const;
 		//Returns a reference to the window's `EventDispatcher`.
 		inline EventSender& EventDispatcher();
 
