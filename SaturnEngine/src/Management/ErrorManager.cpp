@@ -34,7 +34,7 @@ namespace SaturnEngine
 		return m_lastError;
 	}
 
-	void ErrorManager::SetError(SaturnError error, const char* fileName, int lineNumber)
+	void ErrorManager::SetError(SaturnError error, const char* fileName, I32 lineNumber)
 	{
 #ifdef ST_BUILD_DEBUG
 		ST_ERROR("Error {0} was thrown in {1}: {2}", error, fileName, lineNumber);

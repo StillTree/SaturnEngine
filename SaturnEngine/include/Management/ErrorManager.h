@@ -20,6 +20,7 @@ namespace SaturnEngine
 		CouldNotShutDown = 6,
 		MemoryOverflow = 7,
 		InvalidArgument = 8,
+		OperationPending = 9,
 		Unknown = 255
 	};
 
@@ -54,7 +55,7 @@ namespace SaturnEngine
 		 * @param fileName name of the file error occurred in
 		 * @param lineNumber line number on which the error occurred
 		 */
-		void SetError(SaturnError error, const char* fileName, int lineNumber);
+		void SetError(SaturnError error, const char* fileName, I32 lineNumber);
 		/**
 		 * Clears the last throw error.
 		 *

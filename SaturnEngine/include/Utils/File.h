@@ -19,39 +19,86 @@ namespace SaturnEngine
 		~File();
 
 		/**
-		 * Writes text to the current file.
+		 * Writes text asynchronously to the current file.
 		 *
-		 * Doesn't overwrite text being currently written in a file, appends to it. Uses an UTF-16 LE byte order mask.
+		 * Overrides the file and uses an UTF-16 LE byte order mask.
 		 *
-		 * @param buffer text to write
+		 * @param text text to write
 		 */
-		void WriteText(const String& buffer);
+		void AsyncWriteText(const String& text);
 		/**
-		 * Writes pure bytes to the file, not byte order mask or anything.
+		 * Writes pure bytes asynchronously to the current file.
+		 *
+		 * Overrides the file and does not use any byte order mask.
+		 *
+		 * @param buffer pointer to the buffer containing the bytes to write
+		 */
+		void AsyncWriteBytes(const U8* buffer);
+		/**
+		 * Writes text synchronously to the current file.
+		 *
+		 * Overrides the file and uses an UTF-16 LE byte order mask.
+		 *
+		 * @param text text to write
+		 */
+		void WriteText(const String& text);
+		/**
+		 * Writes pure bytes synchronously to the current file.
+		 *
+		 * Overrides the file and does not use any byte order mask.
 		 *
 		 * @param buffer pointer to the buffer containing the bytes to write
 		 */
 		void WriteBytes(const U8* buffer);
 		/**
-		 * Returns text written to a file.
+		 * Reads text asynchronously.
 		 *
-		 * Accounts for UTF-16 LE byte order mask only. It is recommended that every file read that way,
+		 * Accounts for UTF-16 LE byte order mask only. It is recommended that every file read,
 		 * should have an UTF-16 LE byte order mask.
 		 *
-		 * @return
+		 * @return string with the file contains
+		 */
+		String AsyncReadText();
+		/**
+		 * Reads bytes asynchronously.
+		 *
+		 * No byte order mask is being accounted for. Buffer returned must be handled by the user.
+		 *
+		 * @return pointer to an initialized buffer with contains of the file
+		 */
+		U8* AsyncReadBytes();
+		/**
+		 * Reads text synchronously.
+		 *
+		 * Accounts for UTF-16 LE byte order mask only. It is recommended that every file read,
+		 * should have an UTF-16 LE byte order mask.
+		 *
+		 * @return string with the file contains
 		 */
 		String ReadText();
 		/**
-		 * Returns pure bytes written to the file.
+		 * Reads bytes synchronously.
 		 *
-		 * No byte order mask is being accounted to.
+		 * No byte order mask is being accounted for. Buffer returned must be handled by the user.
 		 *
 		 * @return pointer to an initialized buffer with contains of the file
 		 */
 		U8* ReadBytes();
 
-		//Deletes current file.
-		void Delete();
+		/**
+		 * Checks if an asynchronous operation has been completed.
+		 *
+		 * @return completion status of the operation
+		 */
+		bool AsyncOperationCompleted();
+		/**
+		 * Checks if an asynchronous operation has been completed.
+		 *
+		 * @param bytesTransferred returns the number of bytes transferred
+		 *
+		 * @return completion status of the operation
+		 */
+		bool AsyncOperationCompleted(U32& bytesTransferred);
 
 		//Returns the name of the file
 		String Name() const;
@@ -67,6 +114,7 @@ namespace SaturnEngine
 		static constexpr wchar_t s_byteOrderMask = 0xFEFF;
 
 	private:
+		OVERLAPPED m_overlapped;
 		HANDLE m_fileHandle;
 		String m_path;
 	};

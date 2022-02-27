@@ -5,7 +5,7 @@
 namespace SaturnEngine
 {
 	/**
-	 * String class for Saturn Engine.
+	 * An absurdly slow string class for Saturn Engine.
 	 *
 	 * Uses UTF-16 LE encoding.
 	 */
