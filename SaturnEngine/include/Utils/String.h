@@ -12,6 +12,34 @@ namespace SaturnEngine
 	class SATURN_API String
 	{
 	public:
+		/**
+		 * An absurdly slow iterator for Saturn Engine's string class.
+		 *
+		 * Uses UTF-16 LE encoding.
+		 */
+		class SATURN_API Iterator
+		{
+		public:
+			//You can't create an empty iterator
+			Iterator() = delete;
+			explicit Iterator(wchar_t* ptr);
+			~Iterator() = default;
+
+			Iterator& operator++();
+			Iterator& operator--();
+			Iterator operator++(I32);
+			Iterator operator--(I32);
+			wchar_t& operator*();
+			wchar_t* operator->();
+			bool operator<(const Iterator& other);
+			bool operator>(const Iterator& other);
+			bool operator==(const Iterator& other);
+			bool operator!=(const Iterator& other);
+
+		private:
+			wchar_t* m_ptr;
+		};
+
 		//Initializes an empty string, with null byte included
 		String();
 		/**
@@ -21,7 +49,7 @@ namespace SaturnEngine
 		 */
 		String(const wchar_t* str);
 		//Initializes and empty string with the number of bytes specified.
-		explicit String(size_t size);
+		explicit String(U64 size);
 		~String();
 
 		String(const String& other);
@@ -32,13 +60,22 @@ namespace SaturnEngine
 		String& operator=(String&& other) noexcept;
 		bool operator==(const String& other);
 		bool operator!=(const String& other);
+		bool operator==(const wchar_t* str);
+		bool operator!=(const wchar_t* str);
+		const wchar_t& operator[](U64 index) const;
+		wchar_t& operator[](U64 index);
 
 		//Returns the length of the string currently being stored.
-		inline size_t Length() const;
+		inline U64 Length() const;
 		//Returns a constant pointer to the string currently being stored.
 		inline const wchar_t* Pointer() const;
 		//Returns a non-constant pointer to the string currently being stored.
 		inline wchar_t* Pointer();
+
+		//Returns an iterator at the beginning of the string.
+		inline Iterator Begin();
+		//Returns an iterator at the end of the string.
+		inline Iterator End();
 		/**
 		 * Reallocates the currently stored string, with the new size provided.
 		 *
@@ -46,8 +83,9 @@ namespace SaturnEngine
 		 *
 		 * @param newSize size of the new buffer
 		 */
-		void ReAlloc(size_t newSize);
+		void ReAlloc(U64 newSize);
 	private:
 		wchar_t* m_str;
+		U64 m_size;
 	};
 }
