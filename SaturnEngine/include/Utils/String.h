@@ -48,7 +48,7 @@ namespace SaturnEngine
 		 * It is explicit to make it easier to use.
 		 */
 		String(const wchar_t* str);
-		//Initializes and empty string with the number of bytes specified.
+		//Initializes and empty string with the number of characters specified.
 		explicit String(U64 size);
 		~String();
 
@@ -73,9 +73,9 @@ namespace SaturnEngine
 		inline wchar_t* Pointer();
 
 		//Returns an iterator at the beginning of the string.
-		inline Iterator Begin();
+		inline Iterator begin();
 		//Returns an iterator at the end of the string.
-		inline Iterator End();
+		inline Iterator end();
 		/**
 		 * Reallocates the currently stored string, with the new size provided.
 		 *

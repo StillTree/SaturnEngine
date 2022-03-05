@@ -109,6 +109,13 @@ namespace SaturnEngine
 		//Returns extension of the file
 		String Extension() const;
 
+		//Empties the file
+		void Truncate();
+
+	private:
+		 //Writes the byte order mask at the beginning of the file.
+		void WriteByteOrderMask();
+
 	public:
 		//Byte Order Mask for UTF-16 LE encoding.
 		static constexpr wchar_t s_byteOrderMask = 0xFEFF;

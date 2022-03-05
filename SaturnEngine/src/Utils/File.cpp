@@ -17,17 +17,22 @@ namespace SaturnEngine
 			return;
 		}
 
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
-
-		if(!WriteFile(m_fileHandle, &File::s_byteOrderMask, sizeof File::s_byteOrderMask, nullptr, &m_overlapped))
+		wchar_t bom;
+		if(!ReadFile(m_fileHandle, &bom, 2, nullptr, &m_overlapped))
 		{
 			if(GetLastError() != ERROR_IO_PENDING)
 			{
-				ST_THROW_ERROR(SaturnError::CouldNotOpenFile);
+				ST_THROW_ERROR(SaturnError::CouldNotReadFile);
 				return;
 			}
 		}
 		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
+		if(bom != s_byteOrderMask)
+		{
+			ST_THROW_ERROR(SaturnError::CouldNotOpenFile);
+			ST_ERROR(L"Invalid byte order mask, Saturn Engine works with UTF-16 LE encoding.");
+			return;
+		}
 
 		ST_CLEAR_ERROR();
 	}
@@ -57,9 +62,10 @@ namespace SaturnEngine
 			return;
 		}
 
-		//Before writing to a file truncate it
-		SetFilePointer(m_fileHandle, 2, nullptr, FILE_BEGIN);
-		SetEndOfFile(m_fileHandle);
+		//Before writing to a file truncate it and rewrite the byte order mask
+		Truncate();
+		WriteByteOrderMask();
+		m_overlapped.Offset = 2;
 
 		if(!WriteFile(m_fileHandle, text.Pointer(), text.Length() * sizeof(wchar_t), nullptr, &m_overlapped))
 		{
@@ -71,6 +77,7 @@ namespace SaturnEngine
 		}
 
 		ST_CLEAR_ERROR();
+		m_overlapped.Offset = 0;
 	}
 
 	void File::AsyncWriteBytes(const U8* buffer)
@@ -82,9 +89,7 @@ namespace SaturnEngine
 		}
 
 		//Before writing to a file truncate it
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
-		SetEndOfFile(m_fileHandle);
-
+		Truncate();
 		if(!WriteFile(m_fileHandle, buffer, sizeof buffer, nullptr, &m_overlapped))
 		{
 			if(GetLastError() != ERROR_IO_PENDING)
@@ -99,34 +104,35 @@ namespace SaturnEngine
 
 	void File::WriteText(const String& text)
 	{
-		if(!AsyncOperationCompleted())
+		AsyncWriteText(text);
+		if(ST_FAILED_ERROR())
 		{
-			ST_THROW_ERROR(SaturnError::OperationPending);
 			return;
 		}
-
-		AsyncWriteText(text);
 		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
 	}
 
 	void File::WriteBytes(const U8* buffer)
 	{
-		if(!AsyncOperationCompleted())
+		AsyncWriteBytes(buffer);
+		if(ST_FAILED_ERROR())
 		{
-			ST_THROW_ERROR(SaturnError::OperationPending);
 			return;
 		}
-
-		AsyncWriteBytes(buffer);
 		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
 	}
 
 	String File::AsyncReadText()
 	{
-		SetFilePointer(m_fileHandle, 2, nullptr, FILE_BEGIN);
+		if(!AsyncOperationCompleted())
+		{
+			ST_THROW_ERROR(SaturnError::OperationPending);
+			return {};
+		}
 
-		DWORD bytesToRead = GetFileSize(m_fileHandle, nullptr) - 2;
-		String text(bytesToRead / sizeof(wchar_t));
+		m_overlapped.Offset = 2;
+		U32 bytesToRead = GetFileSize(m_fileHandle, nullptr);
+		String text(bytesToRead / sizeof(wchar_t) - 1);
 
 		if(!ReadFile(m_fileHandle, text.Pointer(), bytesToRead, nullptr, &m_overlapped))
 		{
@@ -138,16 +144,22 @@ namespace SaturnEngine
 		}
 
 		ST_CLEAR_ERROR();
+		m_overlapped.Offset = 0;
 		return text;
 	}
 
 	U8* File::AsyncReadBytes()
 	{
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
+		if(!AsyncOperationCompleted())
+		{
+			ST_THROW_ERROR(SaturnError::OperationPending);
+			return nullptr;
+		}
 
-		auto* buffer = new U8[GetFileSize(m_fileHandle, nullptr)];
+		U32 bytesToRead = GetFileSize(m_fileHandle, nullptr);
+		auto* buffer = new U8[bytesToRead];
 
-		if(!ReadFile(m_fileHandle, buffer, sizeof buffer, nullptr, &m_overlapped))
+		if(!ReadFile(m_fileHandle, buffer, bytesToRead, nullptr, &m_overlapped))
 		{
 			if(GetLastError() != ERROR_IO_PENDING)
 			{
@@ -163,6 +175,10 @@ namespace SaturnEngine
 	String File::ReadText()
 	{
 		String str = std::move(AsyncReadText());
+		if(ST_FAILED_ERROR())
+		{
+			return {};
+		}
 		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
 
 		return str;
@@ -171,6 +187,10 @@ namespace SaturnEngine
 	U8* File::ReadBytes()
 	{
 		U8* buffer = AsyncReadBytes();
+		if(ST_FAILED_ERROR())
+		{
+			return nullptr;
+		}
 		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
 
 		return buffer;
@@ -187,8 +207,9 @@ namespace SaturnEngine
 	{
 		//Creating and passing it through a method to not mess with sketchy casts
 		DWORD transferred;
-		return GetOverlappedResult(m_fileHandle, &m_overlapped, &transferred, false);
+		bool finished = GetOverlappedResult(m_fileHandle, &m_overlapped, &transferred, false);
 		bytesTransferred = transferred;
+		return finished;
 	}
 
 	String File::Name() const
@@ -229,5 +250,26 @@ namespace SaturnEngine
 		delete[] ext;
 
 		return str;
+	}
+
+	void File::WriteByteOrderMask()
+	{
+		if(!WriteFile(m_fileHandle, &File::s_byteOrderMask, sizeof File::s_byteOrderMask, nullptr, &m_overlapped))
+		{
+			if(GetLastError() != ERROR_IO_PENDING)
+			{
+				ST_THROW_ERROR(SaturnError::CouldNotModifyFile);
+				return;
+			}
+		}
+		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
+
+		ST_CLEAR_ERROR();
+	}
+
+	void File::Truncate()
+	{
+		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
+		SetEndOfFile(m_fileHandle);
 	}
 }

@@ -206,12 +206,12 @@ namespace SaturnEngine
 		return m_str;
 	}
 
-	String::Iterator String::Begin()
+	String::Iterator String::begin()
 	{
 		return String::Iterator(m_str);
 	}
 
-	String::Iterator String::End()
+	String::Iterator String::end()
 	{
 		return String::Iterator(m_str + m_size);
 	}
