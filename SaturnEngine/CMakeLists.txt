@@ -1,13 +1,17 @@
 #Link SPDLOG
 add_subdirectory(libs/spdlog)
 
+#Link RapidJSON
+add_subdirectory(libs/rapidJSON)
+
 #SaturnEngine stuff
 file(GLOB_RECURSE SaturnEngine_INCLUDE include/*.h)
 file(GLOB_RECURSE SaturnEngine_SOURCE src/*.cpp)
 
 set(SaturnEngine_INCLUDE_DIRECTORIES
 		include
-		libs/spdlog/include)
+		libs/spdlog/include
+		libs/rapidJSON/include)
 
 add_library(SaturnEngine SHARED ${SaturnEngine_SOURCE} ${SaturnEngine_INCLUDE})
 
@@ -27,4 +31,4 @@ target_precompile_headers(SaturnEngine PUBLIC include/SaturnEngine/SaturnPrecomp
 target_compile_definitions(SaturnEngine PRIVATE ST_LIBRARY)
 target_include_directories(SaturnEngine PUBLIC ${SaturnEngine_INCLUDE_DIRECTORIES})
 set_target_properties(SaturnEngine PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries(SaturnEngine PRIVATE spdlog::spdlog_header_only)
+target_link_libraries(SaturnEngine PRIVATE rapidJSON spdlog::spdlog_header_only)
