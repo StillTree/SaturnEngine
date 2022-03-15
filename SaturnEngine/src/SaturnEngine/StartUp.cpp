@@ -23,7 +23,6 @@ namespace SaturnEngine
 	{
 		//ErrorManager
 		g_managers.ErrorManager = new ErrorManager;
-		ErrorManager::Get()->StartUp();
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize ErrorManager! Something went really wrong!\nShutting down Saturn Engine...\n");
@@ -34,7 +33,6 @@ namespace SaturnEngine
 
 		//LogManager
 		g_managers.LogManager = new LogManager;
-		LogManager::Get()->StartUp();
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
@@ -46,10 +44,9 @@ namespace SaturnEngine
 
 		//FrameAllocator
 		g_managers.FrameAllocator = new FrameAllocator;
-		FrameAllocator::Get()->StartUp();
 		if(ST_FAILED_ERROR())
 		{
-			ST_ERROR(L"Failed to initialize Single-Frame memory allocator! Something went really wrong!\n Shutting down Saturn Engine...");
+			ST_ERROR(L"Failed to initialize FrameAllocator! Something went really wrong!\n Shutting down Saturn Engine...");
 			delete g_managers.FrameAllocator;
 			delete g_managers.LogManager;
 			delete g_managers.ErrorManager;
@@ -58,7 +55,25 @@ namespace SaturnEngine
 		}
 
 		Window::RegisterWindowClass();
+		if(ST_FAILED_ERROR())
+		{
+			ST_ERROR(L"Failed to register the Window Class! Something went really wrong!\n Shutting down Saturn Engine...");
+			delete g_managers.FrameAllocator;
+			delete g_managers.LogManager;
+			delete g_managers.ErrorManager;
+
+			return false;
+		}
 		g_globalData.MainWindow = std::make_shared<Window>(L"Application Window", 1366, 768);
+		if(ST_FAILED_ERROR())
+		{
+			ST_ERROR(L"Failed to create a Window! Something went really wrong!\n Shutting down Saturn Engine...");
+			delete g_managers.FrameAllocator;
+			delete g_managers.LogManager;
+			delete g_managers.ErrorManager;
+
+			return false;
+		}
 
 		ST_LOG(L"Saturn Engine started up successfully");
 
@@ -69,31 +84,17 @@ namespace SaturnEngine
 	bool HugeShutDown()
 	{
 		//FrameAllocator
-		FrameAllocator::Get()->ShutDown();
-		if(ST_FAILED_ERROR())
-		{
-			ST_THROW_ERROR(SaturnError::CouldNotShutDown);
-		}
 		delete g_managers.FrameAllocator;
 
 		//LogManager
-		LogManager::Get()->ShutDown();
-		if(ST_FAILED_ERROR())
-		{
-			std::wprintf(L"An error occurred while shutting down!");
-		}
 		delete g_managers.LogManager;
 
 		//ErrorManager
-		ErrorManager::Get()->ShutDown();
-		if(ST_FAILED_ERROR())
-		{
-			std::wprintf(L"An error occurred while shutting down!");
-		}
 		delete g_managers.ErrorManager;
 
 		std::wprintf(L"Saturn Engine shut down successfully\n");
 
+		ST_CLEAR_ERROR();
 		return true;
 	}
 }

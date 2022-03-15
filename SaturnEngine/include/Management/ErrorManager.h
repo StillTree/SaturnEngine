@@ -34,12 +34,8 @@ namespace SaturnEngine
 	{
 	public:
 		ErrorManager();
-		~ErrorManager() = default;
+		~ErrorManager();
 
-		// Start up function. Present in every manager.
-		void StartUp();
-		// Shut down function. Present in every manager.
-		void ShutDown();
 		/**
 		 * Returns the last thrown error.
 		 *

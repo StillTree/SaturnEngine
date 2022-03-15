@@ -2,6 +2,8 @@
 
 #include "Event.h"
 
+//The whole event thing is based `Niko Savas`'s implementation in his `Nomad Game Engine`
+
 namespace SaturnEngine
 {
 	/**

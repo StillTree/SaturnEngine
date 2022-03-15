@@ -19,10 +19,6 @@ namespace SaturnEngine
 		LogManager();
 		~LogManager() = default;
 
-		// Start up function. Present in every manager.
-		void StartUp();
-		// Shut down function. Present in every manager.
-		void ShutDown();
 		/**
 		 * Getter function for the `spdlog::logger`.
 		 *

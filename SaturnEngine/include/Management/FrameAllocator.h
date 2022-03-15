@@ -13,12 +13,8 @@ namespace SaturnEngine
 	{
 	public:
 		FrameAllocator();
-		~FrameAllocator() = default;
+		~FrameAllocator();
 
-		// Start up function. Present in every manager.
-		void StartUp();
-		// Shut down function. Present in every manager.
-		void ShutDown();
 		/**
 		 * Allocates memory of the specified size.
 		 *

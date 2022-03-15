@@ -27,3 +27,4 @@ target_precompile_headers(SaturnEngine PUBLIC include/SaturnEngine/SaturnPrecomp
 target_compile_definitions(SaturnEngine PRIVATE ST_LIBRARY)
 target_include_directories(SaturnEngine PUBLIC ${SaturnEngine_INCLUDE_DIRECTORIES})
 set_target_properties(SaturnEngine PROPERTIES LINKER_LANGUAGE CXX)
+target_link_libraries(SaturnEngine PRIVATE spdlog::spdlog_header_only)

@@ -11,10 +11,7 @@ namespace SaturnEngine
 	{
 		assert(!s_instance && L"You can't create a second instance of FrameAllocator!");
 		s_instance = this;
-	}
 
-	void FrameAllocator::StartUp()
-	{
 		m_memoryPool = new I8[1024];
 		m_stackTop = m_memoryPool;
 		m_stackLimit = m_stackTop + 1024;
@@ -22,7 +19,7 @@ namespace SaturnEngine
 		ST_DEBUG(L"FrameAllocator initialized successfully");
 	}
 
-	void FrameAllocator::ShutDown()
+	FrameAllocator::~FrameAllocator()
 	{
 		delete[] m_memoryPool;
 
@@ -54,4 +51,5 @@ namespace SaturnEngine
 	{
 		m_stackTop = m_memoryPool;
 	}
+
 }

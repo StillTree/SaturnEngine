@@ -11,10 +11,7 @@ namespace SaturnEngine
 	{
 		assert(!s_instance && L"You can't create a second instance of LogManager!");
 		s_instance = this;
-	}
 
-	void LogManager::StartUp()
-	{
 		spdlog::set_pattern("%^[%T] %l: %v%$");
 		m_logger = spdlog::stdout_color_mt("SaturnLogger");
 		if(!m_logger)
@@ -26,11 +23,6 @@ namespace SaturnEngine
 		ST_DEBUG(L"LogManager initialized successfully");
 
 		ST_CLEAR_ERROR();
-	}
-
-	void LogManager::ShutDown()
-	{
-		std::wprintf(L"LogManager shut down successfully");
 	}
 
 	std::shared_ptr<spdlog::logger>& LogManager::Logger()

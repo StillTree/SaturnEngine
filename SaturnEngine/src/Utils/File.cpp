@@ -252,6 +252,12 @@ namespace SaturnEngine
 		return str;
 	}
 
+	void File::Truncate()
+	{
+		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
+		SetEndOfFile(m_fileHandle);
+	}
+
 	void File::WriteByteOrderMask()
 	{
 		if(!WriteFile(m_fileHandle, &File::s_byteOrderMask, sizeof File::s_byteOrderMask, nullptr, &m_overlapped))
@@ -265,11 +271,5 @@ namespace SaturnEngine
 		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
 
 		ST_CLEAR_ERROR();
-	}
-
-	void File::Truncate()
-	{
-		SetFilePointer(m_fileHandle, 0, nullptr, FILE_BEGIN);
-		SetEndOfFile(m_fileHandle);
 	}
 }

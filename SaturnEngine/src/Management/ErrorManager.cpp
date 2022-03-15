@@ -12,16 +12,9 @@ namespace SaturnEngine
 		s_instance = this;
 	}
 
-	void ErrorManager::StartUp()
+	ErrorManager::~ErrorManager()
 	{
 		m_lastError = SaturnError::Ok;
-	}
-
-	void ErrorManager::ShutDown()
-	{
-		m_lastError = SaturnError::Ok;
-
-		std::wprintf(L"Error manager shut down successfully\n");
 	}
 
 	ErrorManager* ErrorManager::Get()

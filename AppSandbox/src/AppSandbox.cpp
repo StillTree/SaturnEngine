@@ -1,5 +1,8 @@
 #include "SaturnEngine.h"
 
+//TODO: RapidJSON
+//TODO: Refactor managers
+
 namespace SaturnEngine
 {
 	void AppStartUp()
