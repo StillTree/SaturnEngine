@@ -1,5 +1,7 @@
 #include "SaturnEngine.h"
 
+//TODO: Changes event type methods to fields
+
 namespace SaturnEngine
 {
 	void AppStartUp()
