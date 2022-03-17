@@ -66,16 +66,16 @@ namespace SaturnEngine
 		wchar_t& operator[](U64 index);
 
 		//Returns the length of the string currently being stored.
-		inline U64 Length() const;
+		U64 Length() const;
 		//Returns a constant pointer to the string currently being stored.
-		inline const wchar_t* Pointer() const;
+		const wchar_t* Pointer() const;
 		//Returns a non-constant pointer to the string currently being stored.
-		inline wchar_t* Pointer();
+		wchar_t* Pointer();
 
 		//Returns an iterator at the beginning of the string.
-		inline Iterator begin();
+		Iterator begin();
 		//Returns an iterator at the end of the string.
-		inline Iterator end();
+		Iterator end();
 		/**
 		 * Reallocates the currently stored string, with the new size provided.
 		 *

@@ -51,5 +51,4 @@ namespace SaturnEngine
 	{
 		m_stackTop = m_memoryPool;
 	}
-
 }

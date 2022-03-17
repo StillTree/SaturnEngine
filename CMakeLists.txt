@@ -6,8 +6,10 @@ set(CMAKE_CXX_STANDARD 17)
 #Include Saturn Engine
 add_subdirectory(SaturnEngine)
 
-#Include AppSandbox
-add_subdirectory(AppSandbox)
+#Examples of how to use Saturn Engine
+if(ST_BUILD_EXAMPLES)
+	add_subdirectory(examples)
+endif()
 
 #Utilities for IDEs
 include(cmake/ide.cmake)

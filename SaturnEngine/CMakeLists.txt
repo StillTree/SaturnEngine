@@ -2,6 +2,9 @@
 add_subdirectory(libs)
 
 #SaturnEngine stuff
+option(ST_BUILD_SHARED "Build the engine as a dynamic link library." OFF)
+option(ST_BUILD_EXAMPLES "Build the example projects." OFF)
+
 file(GLOB_RECURSE SaturnEngine_INCLUDE include/*.h)
 file(GLOB_RECURSE SaturnEngine_SOURCE src/*.cpp)
 
@@ -10,7 +13,13 @@ set(SaturnEngine_INCLUDE_DIRECTORIES
 		libs/spdlog/include
 		libs/rapidJSON/include)
 
-add_library(SaturnEngine SHARED ${SaturnEngine_SOURCE} ${SaturnEngine_INCLUDE})
+if(ST_BUILD_SHARED)
+	add_library(SaturnEngine SHARED ${SaturnEngine_SOURCE} ${SaturnEngine_INCLUDE})
+	target_compile_definitions(SaturnEngine PUBLIC ST_BUILD_SHARED)
+else()
+	add_library(SaturnEngine STATIC ${SaturnEngine_SOURCE} ${SaturnEngine_INCLUDE})
+	target_compile_definitions(SaturnEngine PUBLIC ST_BUILD_STATIC)
+endif()
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P MATCHES 8)
 	target_compile_definitions(SaturnEngine PUBLIC ST_WINDOWS)

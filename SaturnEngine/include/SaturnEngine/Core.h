@@ -3,10 +3,14 @@
 // Macros for easier __declspec use
 
 #ifdef ST_WINDOWS
+#ifdef ST_BUILD_SHARED
 #ifdef ST_LIBRARY
 #define SATURN_API __declspec(dllexport)
 #else
 #define SATURN_API __declspec(dllimport)
+#endif
+#else
+#define SATURN_API
 #endif
 #else
 #error Saturn Engine currently supports only Windows!

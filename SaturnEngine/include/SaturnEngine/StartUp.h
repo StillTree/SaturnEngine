@@ -5,8 +5,8 @@
 
 namespace SaturnEngine
 {
-	Managers SATURN_API g_managers;
-	GlobalData SATURN_API g_globalData;
+	extern Managers SATURN_API g_managers;
+	extern GlobalData SATURN_API g_globalData;
 
 	/**
 	 * Starts up the core engine including the managers.
