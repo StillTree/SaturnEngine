@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Management/ErrorManager.h"
+#include "Management/ErrorSubsystem.h"
 #include "Utils/String.h"
 
 namespace SaturnEngine

@@ -9,11 +9,11 @@ namespace SaturnEngine
 	 *
 	 * Every frame allocates a specified number of bytes and clears this memory every frame.
 	 */
-	class SATURN_API FrameAllocator
+	class SATURN_API AllocSubsystem
 	{
 	public:
-		FrameAllocator();
-		~FrameAllocator();
+		AllocSubsystem();
+		~AllocSubsystem();
 
 		/**
 		 * Allocates memory of the specified size.
@@ -27,20 +27,20 @@ namespace SaturnEngine
 		 */
 		void Clear();
 		//Singleton instance getter function. Present in every manager.
-		static FrameAllocator* Get();
+		static AllocSubsystem* Get();
 
-		FrameAllocator(const FrameAllocator& other) = default;
-		FrameAllocator(FrameAllocator&& other) = default;
+		AllocSubsystem(const AllocSubsystem& other) = default;
+		AllocSubsystem(AllocSubsystem&& other) = default;
 
-		FrameAllocator& operator=(const FrameAllocator& other) = default;
-		FrameAllocator& operator=(FrameAllocator&& other) = default;
+		AllocSubsystem& operator=(const AllocSubsystem& other) = default;
+		AllocSubsystem& operator=(AllocSubsystem&& other) = default;
 
 	private:
 		I8* m_memoryPool;
 		I8* m_stackTop;
 		I8* m_stackLimit;
 
-		static FrameAllocator* s_instance;
+		static AllocSubsystem* s_instance;
 	};
 }
 

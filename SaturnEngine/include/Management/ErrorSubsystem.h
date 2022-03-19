@@ -30,11 +30,11 @@ namespace SaturnEngine
 	 * Every thrown error is being managed by this singleton. You can set and check the last error.
 	 * You shall not use any other error throwing method.
 	 */
-	class SATURN_API ErrorManager
+	class SATURN_API ErrorSubsystem
 	{
 	public:
-		ErrorManager();
-		~ErrorManager();
+		ErrorSubsystem();
+		~ErrorSubsystem();
 
 		/**
 		 * Returns the last thrown error.
@@ -59,23 +59,23 @@ namespace SaturnEngine
 		 */
 		void ClearError();
 		//Singleton instance getter function. Present in every manager.
-		static ErrorManager* Get();
+		static ErrorSubsystem* Get();
 
-		ErrorManager(const ErrorManager& other) = default;
-		ErrorManager(ErrorManager&& other) = default;
+		ErrorSubsystem(const ErrorSubsystem& other) = default;
+		ErrorSubsystem(ErrorSubsystem&& other) = default;
 
-		ErrorManager& operator=(const ErrorManager& other) = default;
-		ErrorManager& operator=(ErrorManager&& other) = default;
+		ErrorSubsystem& operator=(const ErrorSubsystem& other) = default;
+		ErrorSubsystem& operator=(ErrorSubsystem&& other) = default;
 
 	private:
-		static ErrorManager* s_instance;
+		static ErrorSubsystem* s_instance;
 
 		SaturnError m_lastError;
 	};
 }
 
-#define ST_THROW_ERROR(err) ErrorManager::Get()->SetError(err, __FILE__, __LINE__)
+#define ST_THROW_ERROR(err) ErrorSubsystem::Get()->SetError(err, __FILE__, __LINE__)
 #define ST_LAST_ERROR() ErrorManager::Get()->GetError()
 //Do not overuse! Should only be called in functions that throw errors and only there.
-#define ST_CLEAR_ERROR() ErrorManager::Get()->ClearError()
-#define ST_FAILED_ERROR() static_cast<U8>(ErrorManager::Get()->GetError())
+#define ST_CLEAR_ERROR() ErrorSubsystem::Get()->ClearError()
+#define ST_FAILED_ERROR() static_cast<U8>(ErrorSubsystem::Get()->GetError())

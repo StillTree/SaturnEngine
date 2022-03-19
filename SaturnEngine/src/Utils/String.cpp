@@ -1,6 +1,6 @@
 #include "Utils/String.h"
 
-#include "Management/ErrorManager.h"
+#include "Management/ErrorSubsystem.h"
 
 namespace SaturnEngine
 {

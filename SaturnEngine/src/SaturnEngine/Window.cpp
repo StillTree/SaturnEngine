@@ -1,7 +1,7 @@
 #include "SaturnEngine/Window.h"
 
-#include "Management/ErrorManager.h"
-#include "Management/LogManager.h"
+#include "Management/ErrorSubsystem.h"
+#include "Management/LogSubsystem.h"
 
 namespace SaturnEngine
 {

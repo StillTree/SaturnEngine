@@ -1,6 +1,6 @@
 #include "Utils/File.h"
 
-#include "Management/LogManager.h"
+#include "Management/LogSubsystem.h"
 
 namespace SaturnEngine
 {

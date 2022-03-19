@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Management/ErrorManager.h"
-#include "Management/LogManager.h"
-#include "Management/FrameAllocator.h"
+#include "Management/ErrorSubsystem.h"
+#include "Management/LogSubsystem.h"
+#include "Management/AllocSubsystem.h"
 #include "SaturnEngine/Window.h"
 
 namespace SaturnEngine
@@ -10,9 +10,9 @@ namespace SaturnEngine
 	//Structure containing all the managers present in the engine.
 	typedef struct Managers
 	{
-		ErrorManager* ErrorManager = nullptr;
-		LogManager* LogManager = nullptr;
-		FrameAllocator* FrameAllocator = nullptr;
+		ErrorSubsystem* ErrorManager = nullptr;
+		LogSubsystem* LogManager = nullptr;
+		AllocSubsystem* FrameAllocator = nullptr;
 	} Managers;
 
 	//Structure containing all the data required for the application.

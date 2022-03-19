@@ -1,13 +1,13 @@
-﻿#include "Management/LogManager.h"
+﻿#include "Management/LogSubsystem.h"
 
-#include "Management/ErrorManager.h"
+#include "Management/ErrorSubsystem.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace SaturnEngine
 {
-	LogManager* LogManager::s_instance = nullptr;
+	LogSubsystem* LogSubsystem::s_instance = nullptr;
 
-	LogManager::LogManager()
+	LogSubsystem::LogSubsystem()
 	{
 		assert(!s_instance && L"You can't create a second instance of LogManager!");
 		s_instance = this;
@@ -25,12 +25,12 @@ namespace SaturnEngine
 		ST_CLEAR_ERROR();
 	}
 
-	std::shared_ptr<spdlog::logger>& LogManager::Logger()
+	std::shared_ptr<spdlog::logger>& LogSubsystem::Logger()
 	{
 		return m_logger;
 	}
 
-	LogManager* LogManager::Get()
+	LogSubsystem* LogSubsystem::Get()
 	{
 		return s_instance;
 	}

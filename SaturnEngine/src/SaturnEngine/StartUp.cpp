@@ -22,7 +22,7 @@ namespace SaturnEngine
 	bool HugeStartUp()
 	{
 		//ErrorManager
-		g_managers.ErrorManager = new ErrorManager;
+		g_managers.ErrorManager = new ErrorSubsystem;
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize ErrorManager! Something went really wrong!\nShutting down Saturn Engine...\n");
@@ -32,7 +32,7 @@ namespace SaturnEngine
 		}
 
 		//LogManager
-		g_managers.LogManager = new LogManager;
+		g_managers.LogManager = new LogSubsystem;
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
@@ -43,7 +43,7 @@ namespace SaturnEngine
 		}
 
 		//FrameAllocator
-		g_managers.FrameAllocator = new FrameAllocator;
+		g_managers.FrameAllocator = new AllocSubsystem;
 		if(ST_FAILED_ERROR())
 		{
 			ST_ERROR(L"Failed to initialize FrameAllocator! Something went really wrong!\n Shutting down Saturn Engine...");

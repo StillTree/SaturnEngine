@@ -50,7 +50,7 @@ namespace SaturnEngine
 			}
 			else
 			{
-				FrameAllocator::Get()->Clear();
+				AllocSubsystem::Get()->Clear();
 				if(ST_FAILED_ERROR())
 				{
 					ST_ERROR(L"Failed to clear FrameAllocator. Shutting down Saturn Engine...");

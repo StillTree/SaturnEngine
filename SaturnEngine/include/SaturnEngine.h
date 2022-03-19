@@ -1,10 +1,10 @@
 #pragma once
 
 #include "SaturnEngine/StartUp.h"
-#include "Management/LogManager.h"
-#include "Management/FrameAllocator.h"
+#include "Management/LogSubsystem.h"
+#include "Management/AllocSubsystem.h"
 #include "Utils/File.h"
-#include "Management/ErrorManager.h"
+#include "Management/ErrorSubsystem.h"
 #include "Utils/String.h"
 #include "SaturnEngine/Events/Event.h"
 #include "SaturnEngine/Events/EventSender.h"

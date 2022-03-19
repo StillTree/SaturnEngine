@@ -1,13 +1,13 @@
-#include "Management/FrameAllocator.h"
+#include "Management/AllocSubsystem.h"
 
-#include "Management/LogManager.h"
-#include "Management/ErrorManager.h"
+#include "Management/LogSubsystem.h"
+#include "Management/ErrorSubsystem.h"
 
 namespace SaturnEngine
 {
-	FrameAllocator* FrameAllocator::s_instance = nullptr;
+	AllocSubsystem* AllocSubsystem::s_instance = nullptr;
 
-	FrameAllocator::FrameAllocator() : m_memoryPool(nullptr), m_stackTop(nullptr), m_stackLimit(nullptr)
+	AllocSubsystem::AllocSubsystem() : m_memoryPool(nullptr), m_stackTop(nullptr), m_stackLimit(nullptr)
 	{
 		assert(!s_instance && L"You can't create a second instance of FrameAllocator!");
 		s_instance = this;
@@ -19,19 +19,19 @@ namespace SaturnEngine
 		ST_DEBUG(L"FrameAllocator initialized successfully");
 	}
 
-	FrameAllocator::~FrameAllocator()
+	AllocSubsystem::~AllocSubsystem()
 	{
 		delete[] m_memoryPool;
 
 		ST_DEBUG(L"FrameAllocator shut down successfully");
 	}
 
-	FrameAllocator* FrameAllocator::Get()
+	AllocSubsystem* AllocSubsystem::Get()
 	{
 		return s_instance;
 	}
 
-	void* FrameAllocator::Alloc(I64 size)
+	void* AllocSubsystem::Alloc(I64 size)
 	{
 		if(m_stackTop + size > m_stackLimit)
 		{
@@ -47,7 +47,7 @@ namespace SaturnEngine
 		return tmp;
 	}
 
-	void FrameAllocator::Clear()
+	void AllocSubsystem::Clear()
 	{
 		m_stackTop = m_memoryPool;
 	}
