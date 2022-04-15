@@ -9,7 +9,7 @@ namespace SaturnEngine
 
 	LogSubsystem::LogSubsystem()
 	{
-		assert(!s_instance && L"You can't create a second instance of LogManager!");
+		ST_ASSERT(!s_instance, L"You can't create a second instance of LogManager!")
 		s_instance = this;
 
 		spdlog::set_pattern("%^[%T] %l: %v%$");
@@ -21,7 +21,6 @@ namespace SaturnEngine
 		}
 
 		ST_DEBUG(L"LogManager initialized successfully");
-
 		ST_CLEAR_ERROR();
 	}
 

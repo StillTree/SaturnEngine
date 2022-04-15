@@ -43,27 +43,16 @@ namespace SaturnEngine
 		//Initializes an empty string, with null byte included
 		String();
 		/**
-		 * Initializes the string with the `const char*` provided.
+		 * Initializes the string with the `const wchar_t*` provided.
 		 *
 		 * It is explicit to make it easier to use.
 		 */
 		String(const wchar_t* str);
 		//Initializes and empty string with the number of characters specified.
 		explicit String(U64 size);
-		~String();
-
 		String(const String& other);
 		String(String&& other) noexcept;
-
-		String& operator=(const wchar_t* str);
-		String& operator=(const String& other);
-		String& operator=(String&& other) noexcept;
-		bool operator==(const String& other);
-		bool operator!=(const String& other);
-		bool operator==(const wchar_t* str);
-		bool operator!=(const wchar_t* str);
-		const wchar_t& operator[](U64 index) const;
-		wchar_t& operator[](U64 index);
+		~String();
 
 		//Returns the length of the string currently being stored.
 		U64 Length() const;
@@ -84,8 +73,23 @@ namespace SaturnEngine
 		 * @param newSize size of the new buffer
 		 */
 		void ReAlloc(U64 newSize);
+
+		String& operator=(const wchar_t* str);
+		String& operator=(const String& other);
+		String& operator=(String&& other) noexcept;
+		bool operator==(const String& other);
+		bool operator!=(const String& other);
+		bool operator==(const wchar_t* str);
+		bool operator!=(const wchar_t* str);
+		const wchar_t& operator[](U64 index) const;
+		wchar_t& operator[](U64 index);
+
 	private:
 		wchar_t* m_str;
 		U64 m_size;
 	};
 }
+
+#define ST_MAKE_WIDE_(x) L##x
+//Just a little hacky thing which makes non-wide strings wide... magic.
+#define ST_MAKE_WIDE(x) ST_MAKE_WIDE_(x)

@@ -29,8 +29,9 @@ namespace SaturnEngine
 		WaitForSingleObject(m_overlapped.hEvent, INFINITE);
 		if(bom != s_byteOrderMask)
 		{
-			ST_THROW_ERROR(SaturnError::CouldNotOpenFile);
-			ST_ERROR(L"Invalid byte order mask, Saturn Engine works with UTF-16 LE encoding.");
+			ST_WARN(L"Invalid byte order mask, writing a new one. File data may be corrupt.");
+			WriteByteOrderMask();
+
 			return;
 		}
 
@@ -198,9 +199,15 @@ namespace SaturnEngine
 
 	bool File::AsyncOperationCompleted()
 	{
-		//Discarding number bytes transferred, although it is required to pass into the method
+		//Discarding the number of bytes transferred, although it is required to pass into the method
 		DWORD bytesTransferred;
-		return GetOverlappedResult(m_fileHandle, &m_overlapped, &bytesTransferred, false);
+		BOOL finished = GetOverlappedResult(m_fileHandle, &m_overlapped, &bytesTransferred, false);
+		//I don't really know how to deal with that, so there's a hacky workaround
+		if(GetLastError() == ERROR_HANDLE_EOF)
+		{
+			return !finished;
+		}
+		return finished;
 	}
 
 	bool File::AsyncOperationCompleted(U32& bytesTransferred)
@@ -209,6 +216,11 @@ namespace SaturnEngine
 		DWORD transferred;
 		bool finished = GetOverlappedResult(m_fileHandle, &m_overlapped, &transferred, false);
 		bytesTransferred = transferred;
+		//I don't really know how to deal with that, so there's a hacky workaround
+		if(GetLastError() == ERROR_HANDLE_EOF)
+		{
+			return !finished;
+		}
 		return finished;
 	}
 

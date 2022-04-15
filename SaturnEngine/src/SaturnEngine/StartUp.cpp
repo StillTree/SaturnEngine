@@ -3,7 +3,7 @@
 
 namespace SaturnEngine
 {
-	Managers SATURN_API g_managers;
+	Subsystems SATURN_API g_subsystems;
 	GlobalData SATURN_API g_globalData;
 
 	/**
@@ -21,35 +21,48 @@ namespace SaturnEngine
 
 	bool HugeStartUp()
 	{
-		//ErrorManager
-		g_managers.ErrorManager = new ErrorSubsystem;
+		//ErrorSubsystem
+		g_subsystems.ErrorSubsystem = new ErrorSubsystem;
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize ErrorManager! Something went really wrong!\nShutting down Saturn Engine...\n");
-			delete g_managers.ErrorManager;
+			delete g_subsystems.ErrorSubsystem;
 
 			return false;
 		}
 
-		//LogManager
-		g_managers.LogManager = new LogSubsystem;
+		//LogSubsystem
+		g_subsystems.LogSubsystem = new LogSubsystem;
 		if(ST_FAILED_ERROR())
 		{
 			std::wprintf(L"Could not initialize LogManager! Something went really wrong!\nShutting down Saturn Engine...\n");
-			delete g_managers.LogManager;
-			delete g_managers.ErrorManager;
+			delete g_subsystems.LogSubsystem;
+			delete g_subsystems.ErrorSubsystem;
 
 			return false;
 		}
 
-		//FrameAllocator
-		g_managers.FrameAllocator = new AllocSubsystem;
+		//ConfigSubsystem
+		g_subsystems.ConfigSubsystem = new ConfigSubsystem(L"saturnEngineConfig.json");
 		if(ST_FAILED_ERROR())
 		{
-			ST_ERROR(L"Failed to initialize FrameAllocator! Something went really wrong!\n Shutting down Saturn Engine...");
-			delete g_managers.FrameAllocator;
-			delete g_managers.LogManager;
-			delete g_managers.ErrorManager;
+			ST_ERROR(L"Failed to initialize ConfigSubsystem! Something went really wrong!\n Shutting down Saturn Engine...");
+			delete g_subsystems.FrameAllocator;
+			delete g_subsystems.LogSubsystem;
+			delete g_subsystems.ErrorSubsystem;
+
+			return false;
+		}
+
+		//AllocSubsystem
+		g_subsystems.FrameAllocator = new AllocSubsystem;
+		if(ST_FAILED_ERROR())
+		{
+			ST_ERROR(L"Failed to initialize AllocSubsystem! Something went really wrong!\n Shutting down Saturn Engine...");
+			delete g_subsystems.FrameAllocator;
+			delete g_subsystems.LogSubsystem;
+			delete g_subsystems.ErrorSubsystem;
+			delete g_subsystems.ConfigSubsystem;
 
 			return false;
 		}
@@ -58,9 +71,9 @@ namespace SaturnEngine
 		if(ST_FAILED_ERROR())
 		{
 			ST_ERROR(L"Failed to register the Window Class! Something went really wrong!\n Shutting down Saturn Engine...");
-			delete g_managers.FrameAllocator;
-			delete g_managers.LogManager;
-			delete g_managers.ErrorManager;
+			delete g_subsystems.FrameAllocator;
+			delete g_subsystems.LogSubsystem;
+			delete g_subsystems.ErrorSubsystem;
 
 			return false;
 		}
@@ -68,9 +81,9 @@ namespace SaturnEngine
 		if(ST_FAILED_ERROR())
 		{
 			ST_ERROR(L"Failed to create a Window! Something went really wrong!\n Shutting down Saturn Engine...");
-			delete g_managers.FrameAllocator;
-			delete g_managers.LogManager;
-			delete g_managers.ErrorManager;
+			delete g_subsystems.FrameAllocator;
+			delete g_subsystems.LogSubsystem;
+			delete g_subsystems.ErrorSubsystem;
 
 			return false;
 		}
@@ -83,14 +96,17 @@ namespace SaturnEngine
 
 	bool HugeShutDown()
 	{
-		//FrameAllocator
-		delete g_managers.FrameAllocator;
+		//AllocSubsystem
+		delete g_subsystems.FrameAllocator;
 
-		//LogManager
-		delete g_managers.LogManager;
+		//ConfigSubsystem
+		delete g_subsystems.ConfigSubsystem;
 
-		//ErrorManager
-		delete g_managers.ErrorManager;
+		//LogSubsystem
+		delete g_subsystems.LogSubsystem;
+
+		//ErrorSubsystem
+		delete g_subsystems.ErrorSubsystem;
 
 		std::wprintf(L"Saturn Engine shut down successfully\n");
 

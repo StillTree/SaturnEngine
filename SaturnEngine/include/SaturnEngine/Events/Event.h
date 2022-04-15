@@ -2,7 +2,7 @@
 
 namespace SaturnEngine
 {
-	//All the core event types.
+	//Core event types.
 	enum class CoreEventType : U8
 	{
 		MouseMove = 0,
@@ -18,15 +18,12 @@ namespace SaturnEngine
 	/**
 	 * Base event struct.
 	 *
-	 * Every event should inherit from it and implement `GetType()` and `GetStaticType()` methods.
-	 * There is a macro to make the process easier and to not forget something.
+	 * Every event should inherit from it and create `Type` and `StaticType` fields.
+	 * There is a macro to make the process easier and also faster.
 	 */
-	typedef struct Event
-	{
-		virtual CoreEventType Type() const = 0;
-	} Event;
+	typedef struct Event { } Event;
 }
 
 #define EVENT_METHODS(eventType) \
-CoreEventType Type() const override { return eventType; } \
-static CoreEventType StaticType() { return eventType; }
+CoreEventType Type = eventType; \
+static constexpr CoreEventType StaticType = eventType;

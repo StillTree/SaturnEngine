@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Utils/String.h"
 #include "SaturnEngine/Core.h"
 
 namespace SaturnEngine
@@ -21,6 +22,8 @@ namespace SaturnEngine
 		MemoryOverflow = 7,
 		InvalidArgument = 8,
 		OperationPending = 9,
+		AssertFailure = 10,
+		NotFound = 11,
 		Unknown = 255
 	};
 
@@ -34,6 +37,8 @@ namespace SaturnEngine
 	{
 	public:
 		ErrorSubsystem();
+		ErrorSubsystem(const ErrorSubsystem& other) = delete;
+		ErrorSubsystem(ErrorSubsystem&& other) = delete;
 		~ErrorSubsystem();
 
 		/**
@@ -51,21 +56,29 @@ namespace SaturnEngine
 		 * @param fileName name of the file error occurred in
 		 * @param lineNumber line number on which the error occurred
 		 */
-		void SetError(SaturnError error, const char* fileName, I32 lineNumber);
+		void SetError(SaturnError error, const String& fileName, I32 lineNumber);
+		/**
+		 * Throws an error and displays the specified message.
+		 *
+		 * Thrown error can be checked later. Gets overwritten every time a new one is thrown.
+		 *
+		 * @param error error to throw
+		 * @param fileName name of the file error occurred in
+		 * @param lineNumber line number on which the error occurred
+		 */
+		void SetError(SaturnError error, const String& message, const String& fileName, I32 lineNumber);
 		/**
 		 * Clears the last throw error.
 		 *
 		 * In practice, just sets the latest thrown error to "Ok".
 		 */
 		void ClearError();
-		//Singleton instance getter function. Present in every manager.
+
+		//Singleton instance getter function. Present in every subsystem.
 		static ErrorSubsystem* Get();
 
-		ErrorSubsystem(const ErrorSubsystem& other) = default;
-		ErrorSubsystem(ErrorSubsystem&& other) = default;
-
-		ErrorSubsystem& operator=(const ErrorSubsystem& other) = default;
-		ErrorSubsystem& operator=(ErrorSubsystem&& other) = default;
+		ErrorSubsystem& operator=(const ErrorSubsystem& other) = delete;
+		ErrorSubsystem& operator=(ErrorSubsystem&& other) = delete;
 
 	private:
 		static ErrorSubsystem* s_instance;
@@ -74,8 +87,10 @@ namespace SaturnEngine
 	};
 }
 
-#define ST_THROW_ERROR(err) ErrorSubsystem::Get()->SetError(err, __FILE__, __LINE__)
-#define ST_LAST_ERROR() ErrorManager::Get()->GetError()
+#define ST_THROW_ERROR(err) ErrorSubsystem::Get()->SetError(err, ST_MAKE_WIDE(__FILE__), __LINE__)
+#define ST_THROW_ERROR_MSG(err, msg) ErrorSubsystem::Get()->SetError(err, msg, ST_MAKE_WIDE(__FILE__), __LINE__)
+#define ST_LAST_ERROR() ErrorSubsystem::Get()->GetError()
 //Do not overuse! Should only be called in functions that throw errors and only there.
 #define ST_CLEAR_ERROR() ErrorSubsystem::Get()->ClearError()
 #define ST_FAILED_ERROR() static_cast<U8>(ErrorSubsystem::Get()->GetError())
+#define ST_ASSERT(exp, msg) if((exp)) { } else { ST_THROW_ERROR_MSG(SaturnEngine::SaturnError::AssertFailure, msg); abort(); __debugbreak(); }

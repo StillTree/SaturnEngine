@@ -2,28 +2,31 @@
 
 #include "Management/LogSubsystem.h"
 #include "Management/ErrorSubsystem.h"
+#include "Management/ConfigSubsystem.h"
 
 namespace SaturnEngine
 {
 	AllocSubsystem* AllocSubsystem::s_instance = nullptr;
 
-	AllocSubsystem::AllocSubsystem() : m_memoryPool(nullptr), m_stackTop(nullptr), m_stackLimit(nullptr)
+	AllocSubsystem::AllocSubsystem()
+		: m_memoryPool(nullptr), m_stackTop(nullptr), m_stackLimit(nullptr)
 	{
-		assert(!s_instance && L"You can't create a second instance of FrameAllocator!");
+		ST_ASSERT(!s_instance, L"You can't create a second instance of AllocSubsystem!")
 		s_instance = this;
+		I32 allocationSize = CONFIG_REQUEST_INT32(L"singleFrameMemoryPoolSize", 1024);
 
-		m_memoryPool = new I8[1024];
+		m_memoryPool = new I8[allocationSize];
 		m_stackTop = m_memoryPool;
-		m_stackLimit = m_stackTop + 1024;
+		m_stackLimit = m_stackTop + allocationSize;
 
-		ST_DEBUG(L"FrameAllocator initialized successfully");
+		ST_DEBUG(L"AllocSubsystem initialized successfully");
 	}
 
 	AllocSubsystem::~AllocSubsystem()
 	{
 		delete[] m_memoryPool;
 
-		ST_DEBUG(L"FrameAllocator shut down successfully");
+		ST_DEBUG(L"AllocSubsystem shut down successfully");
 	}
 
 	AllocSubsystem* AllocSubsystem::Get()

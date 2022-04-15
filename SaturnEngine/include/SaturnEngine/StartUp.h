@@ -5,7 +5,7 @@
 
 namespace SaturnEngine
 {
-	extern Managers SATURN_API g_managers;
+	extern Subsystems SATURN_API g_subsystems;
 	extern GlobalData SATURN_API g_globalData;
 
 	/**

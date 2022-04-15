@@ -17,6 +17,8 @@ namespace SaturnEngine
 	{
 	public:
 		LogSubsystem();
+		LogSubsystem(const LogSubsystem& other) = delete;
+		LogSubsystem(LogSubsystem&& other) = delete;
 		~LogSubsystem() = default;
 
 		/**
@@ -25,14 +27,12 @@ namespace SaturnEngine
 		 * @return reference to `spdlog::logger`
 		 */
 		std::shared_ptr<spdlog::logger>& Logger();
-		//Singleton instance getter function. Present in every manager.
-		static LogSubsystem* Get();
-	
-		LogSubsystem(const LogSubsystem& other) = default;
-		LogSubsystem(LogSubsystem&& other) = default;
 
-		LogSubsystem& operator=(const LogSubsystem& other) = default;
-		LogSubsystem& operator=(LogSubsystem&& other) = default;
+		//Singleton instance getter function. Present in every subsystem.
+		static LogSubsystem* Get();
+
+		LogSubsystem& operator=(const LogSubsystem& other) = delete;
+		LogSubsystem& operator=(LogSubsystem&& other) = delete;
 
 	private:
 		static LogSubsystem* s_instance;
@@ -49,5 +49,5 @@ namespace SaturnEngine
 // Only logs when compiled in debug mode
 #define ST_DEBUG(...)
 #endif
-#define ST_WARN(...) SaturnEngine::LogManager::Get()->Logger()->warn(__VA_ARGS__)
+#define ST_WARN(...) SaturnEngine::LogSubsystem::Get()->Logger()->warn(__VA_ARGS__)
 #define ST_ERROR(...) SaturnEngine::LogSubsystem::Get()->Logger()->error(__VA_ARGS__)

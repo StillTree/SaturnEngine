@@ -13,6 +13,8 @@ namespace SaturnEngine
 	{
 	public:
 		AllocSubsystem();
+		AllocSubsystem(const AllocSubsystem& other) = delete;
+		AllocSubsystem(AllocSubsystem&& other) = delete;
 		~AllocSubsystem();
 
 		/**
@@ -26,14 +28,12 @@ namespace SaturnEngine
 		 * Clear the memory allocator
 		 */
 		void Clear();
-		//Singleton instance getter function. Present in every manager.
+
+		//Singleton instance getter function. Present in every subsystem.
 		static AllocSubsystem* Get();
 
-		AllocSubsystem(const AllocSubsystem& other) = default;
-		AllocSubsystem(AllocSubsystem&& other) = default;
-
-		AllocSubsystem& operator=(const AllocSubsystem& other) = default;
-		AllocSubsystem& operator=(AllocSubsystem&& other) = default;
+		AllocSubsystem& operator=(const AllocSubsystem& other) = delete;
+		AllocSubsystem& operator=(AllocSubsystem&& other) = delete;
 
 	private:
 		I8* m_memoryPool;

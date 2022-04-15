@@ -7,4 +7,3 @@
 #include <map>
 #include <memory>
 #include <cstdio>
-#include <cassert>

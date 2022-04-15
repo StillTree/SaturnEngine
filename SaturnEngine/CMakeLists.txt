@@ -3,7 +3,7 @@ add_subdirectory(libs)
 
 #SaturnEngine stuff
 option(ST_BUILD_SHARED "Build the engine as a dynamic link library." OFF)
-option(ST_BUILD_EXAMPLES "Build the example projects." OFF)
+option(ST_BUILD_EXAMPLES "Build the example projects." ON)
 
 file(GLOB_RECURSE SaturnEngine_INCLUDE include/*.h)
 file(GLOB_RECURSE SaturnEngine_SOURCE src/*.cpp)
@@ -27,7 +27,7 @@ else()
 	message(FATAL_ERROR "Saturn Engine currently supports only Windows x64.")
 endif()
 
-if(CMAKE_BUILD_TYPE MATCHES Debug)
+if(CMAKE_BUILD_TYPE MATCHES Debug OR DebugWithRelInfo)
 	target_compile_definitions(SaturnEngine PUBLIC ST_BUILD_DEBUG)
 else()
 	target_compile_definitions(SaturnEngine PUBLIC ST_BUILD_RELEASE)
